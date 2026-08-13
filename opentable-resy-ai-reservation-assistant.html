@@ -7,6 +7,11 @@
   <meta name="description" content="An AI reservation assistant that books phone calls directly into OpenTable and Resy. Answers on the first ring, confirms by text, and never misses a table. $50/month." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://table-talk.tech/opentable-resy-ai-reservation-assistant.html" />
+  <meta name="geo.region" content="US" />
+  <meta name="geo.placename" content="United States" />
+  <meta name="geo.position" content="37.0902;-95.7129" />
+  <meta name="ICBM" content="37.0902, -95.7129" />
+  <meta name="target" content="restaurants in the United States and Canada" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="TableTalk AI" />
@@ -23,25 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config = {
-      theme: { extend: {
-        fontFamily: { display: ['Fraunces', 'serif'], sans: ['Inter', 'sans-serif'] },
-        colors: { espresso: '#171310', cream: '#FAF6F0' }
-      } }
-    };
-  </script>
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    h1, h2, h3, .font-display { font-family: 'Fraunces', serif; }
-    ::selection { background: #F59E0B; color: #171310; }
-    html { scroll-behavior: smooth; }
-    .gradient-text { background: linear-gradient(120deg,#FBBF24,#EA580C 60%,#F59E0B); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .btn-primary { position: relative; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(245,158,11,.55); }
-  </style>
 
   <script type="application/ld+json">
   {
@@ -52,7 +39,9 @@
         "@id": "https://table-talk.tech/#organization",
         "name": "TableTalk AI",
         "url": "https://table-talk.tech/",
-        "email": "support@tabletalkai.com"
+        "email": "support@tabletalkai.com",
+        "address": { "@type": "PostalAddress", "addressCountry": "US" },
+        "areaServed": "North America"
       },
       {
         "@type": "SoftwareApplication",
@@ -96,6 +85,9 @@
     ]
   }
   </script>
+
+
+  <link rel="stylesheet" href="css/main.css" />
 </head>
 <body class="bg-cream text-zinc-800 antialiased overflow-x-hidden">
 
@@ -117,7 +109,7 @@
 
   <section class="relative overflow-hidden bg-espresso py-24 sm:py-28">
     <div class="absolute inset-0">
-      <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=1800&q=80" alt="Wine poured at a restaurant table" class="h-full w-full object-cover opacity-20" loading="eager" />
+      <img width="1200" height="1600" src="images/photo-1543007630-9710e4a00a20-1200.webp" alt="Wine poured at a restaurant table" class="h-full w-full object-cover opacity-20" loading="eager" />
       <div class="absolute inset-0 bg-gradient-to-b from-espresso/80 via-espresso/75 to-espresso"></div>
     </div>
     <div class="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
@@ -240,7 +232,10 @@
         <a href="ai-phone-receptionist-for-restaurants.html" class="hover:text-amber-400">AI Phone Receptionist</a>
         <a href="restaurant-phone-answering-service.html" class="hover:text-amber-400">Phone Answering Service</a>
         <a href="restaurant-phone-booking-bot.html" class="hover:text-amber-400">Booking Bot</a>
-        <a href="index.html" class="hover:text-amber-400">Home</a>
+                <a href="integrations/opentable-ai-phone-booking.html" class="hover:text-amber-400">OpenTable AI Booking</a>
+        <a href="integrations/resy-ai-receptionist.html" class="hover:text-amber-400">Resy AI Receptionist</a>
+        <a href="integrations/toast-pos-phone-answering.html" class="hover:text-amber-400">Toast POS Answering</a>
+<a href="index.html" class="hover:text-amber-400">Home</a>
       </nav>
       <p class="text-xs">&copy; <span>2026</span> TableTalk AI.</p>
     </div>

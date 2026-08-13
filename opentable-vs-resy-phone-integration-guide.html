@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenTable vs Resy: Phone Integration Setup Guide for Restaurants | TableTalk AI</title>
+  <meta name="description" content="Step-by-step guide to connecting AI phone answering to OpenTable and Resy. Compare both, pick the right one for your restaurant, and go live in minutes." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://table-talk.tech/opentable-vs-resy-phone-integration-guide.html" />
+  <meta name="geo.region" content="US" />
+  <meta name="geo.placename" content="United States" />
+  <meta name="geo.position" content="37.0902;-95.7129" />
+  <meta name="ICBM" content="37.0902, -95.7129" />
+  <meta name="target" content="restaurants in the United States and Canada" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="TableTalk AI" />
+  <meta property="og:url" content="https://table-talk.tech/opentable-vs-resy-phone-integration-guide.html" />
+  <meta property="og:title" content="OpenTable vs Resy: Phone Integration Setup Guide" />
+  <meta property="og:description" content="Step-by-step guide to connecting AI phone answering to OpenTable and Resy." />
+  <meta property="og:image" content="https://table-talk.tech/og-image.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="OpenTable vs Resy Phone Integration Guide" />
+  <meta name="twitter:description" content="Step-by-step guide to connecting AI phone answering to OpenTable and Resy." />
+  <meta name="twitter:image" content="https://table-talk.tech/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://table-talk.tech/#organization",
+        "name": "TableTalk AI",
+        "url": "https://table-talk.tech/",
+        "email": "support@tabletalkai.com",
+        "address": { "@type": "PostalAddress", "addressCountry": "US" },
+        "areaServed": "North America"
+      },
+      {
+        "@type": "Article",
+        "headline": "OpenTable vs Resy: Phone Integration Setup Guide for Restaurants",
+        "description": "Step-by-step guide to connecting AI phone answering to OpenTable and Resy.",
+        "author": { "@type": "Organization", "name": "TableTalk AI" },
+        "publisher": { "@id": "https://table-talk.tech/#organization" },
+        "mainEntityOfPage": "https://table-talk.tech/opentable-vs-resy-phone-integration-guide.html",
+        "datePublished": "2026-08-13",
+        "dateModified": "2026-08-13"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://table-talk.tech/" },
+          { "@type": "ListItem", "position": 2, "name": "OpenTable vs Resy Phone Integration Guide", "item": "https://table-talk.tech/opentable-vs-resy-phone-integration-guide.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can one phone AI work with both OpenTable and Resy?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. TableTalk handles both from a single line and dashboard, so you never have to pick between the two platforms." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is connecting an AI phone system to OpenTable or Resy hard?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. With TableTalk it's an authorize-and-forward flow: you connect your reservation account, turn on conditional call forwarding, and the AI goes live in about 5 minutes." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-cream text-zinc-800 antialiased overflow-x-hidden">
+
+  <header class="sticky top-0 z-40 bg-espresso shadow-lg shadow-black/20">
+    <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600"><i data-lucide="phone-call" class="h-5 w-5 text-white"></i></span>
+        <span class="text-lg font-semibold tracking-tight text-white">TableTalk&nbsp;<span class="text-amber-400">AI</span></span>
+      </a>
+      <div class="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <a href="index.html#pricing" class="hover:text-white">Pricing</a>
+        <a href="ai-phone-receptionist-for-restaurants.html" class="hover:text-white">Solutions</a>
+      </div>
+      <a href="index.html#cta" class="btn-primary rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-2.5 text-sm font-semibold text-white">Start free trial</a>
+    </nav>
+  </header>
+
+  <article>
+    <section class="relative overflow-hidden bg-espresso py-24 sm:py-28">
+      <div class="absolute inset-0">
+        <img width="800" height="1067" src="images/photo-1543007630-9710e4a00a20-800.webp" alt="Cocktail at an elegant restaurant bar" class="h-full w-full object-cover opacity-15" loading="eager" />
+        <div class="absolute inset-0 bg-gradient-to-b from-espresso/85 via-espresso/80 to-espresso"></div>
+      </div>
+      <div class="relative mx-auto max-w-3xl px-4 sm:px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400">Guide · Setup</p>
+        <h1 class="mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl">OpenTable vs Resy: phone integration setup guide</h1>
+        <p class="mt-5 text-lg leading-relaxed text-zinc-300">How to connect AI phone answering to either platform — and how to choose which one fits your floor.</p>
+        <p class="mt-8 flex items-center gap-2 text-sm text-zinc-400"><i data-lucide="calendar" class="h-4 w-4 text-amber-400"></i> Updated August 13, 2026 · <span class="font-semibold text-zinc-300">6 min read</span></p>
+      </div>
+    </section>
+
+    <section class="py-16 lg:py-20">
+      <div class="mx-auto max-w-3xl px-4 sm:px-6">
+        <div class="space-y-6 text-[17px] leading-relaxed text-zinc-700">
+
+          <p>If your restaurant takes reservations, you're on one of two platforms 95% of the time: <strong>OpenTable</strong> or <strong>Resy</strong>. The choice affects everything from your floor plan to your marketing data — and, increasingly, how your phone system books tables.</p>
+          <p>This guide compares the two, then walks through exactly how to connect AI phone answering to whichever one you run.</p>
+
+          <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">OpenTable vs Resy at a glance</h2>
+          <div class="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-zinc-200 bg-cream text-left">
+                  <th class="px-5 py-3.5 font-semibold text-zinc-500">What matters</th>
+                  <th class="px-5 py-3.5 font-semibold text-zinc-400">OpenTable</th>
+                  <th class="px-5 py-3.5 font-semibold text-zinc-400">Resy</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-100">
+                <tr>
+                  <td class="px-5 py-3.5 font-medium text-zinc-900">Best for</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Large networks, established dining rooms</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Independent, buzz-driven restaurants</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3.5 font-medium text-zinc-900">Discovery</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Huge search marketplace</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Curated, often faster hype cycles</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3.5 font-medium text-zinc-900">No-show policy tools</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Cards, deposit options</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Cards, deposits, shorter windows</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3.5 font-medium text-zinc-900">Fee model</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Subscription + per-cover</td>
+                  <td class="px-5 py-3.5 text-zinc-600">Per-cover style</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Both platforms are excellent. For a phone AI, the important thing isn't the platform — it's that <strong>the reservation lands in your real book</strong>, with the guest's correct name, party size, and contact info, so your host and kitchen see it instantly.</p>
+
+          <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">How AI phone booking works on either platform</h2>
+          <p>The experience is identical whether you run OpenTable or Resy. When a guest calls:</p>
+          <ol class="mt-4 space-y-3 pl-5 marker:text-amber-500 list-decimal">
+            <li>The AI greets the caller with your brand's voice and greeting.</li>
+            <li>It reads availability from your live reservation calendar.</li>
+            <li>It books the party under the caller's name, at the right size and time.</li>
+            <li>It sends an SMS confirmation with the menu and directions.</li>
+            <li>The booking appears in your OpenTable or Resy app like any other.</li>
+          </ol>
+
+          <div class="rounded-3xl bg-gradient-to-br from-espresso to-[#2A2119] p-8 text-white">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">The pro tip</p>
+            <p class="mt-3 text-sm leading-relaxed text-zinc-200">You don't have to pick. TableTalk connects to <strong>both</strong> OpenTable and Resy from one line and one dashboard — so multi-platform restaurants never lose a booking to the "other" system.</p>
+          </div>
+
+          <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">Setup guide: OpenTable</h2>
+          <ol class="mt-4 space-y-4">
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 1 — Connect your OpenTable account.</span> In TableTalk, authorize OpenTable with read-write booking access. No API keys, no developer.</li>
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 2 — Turn on conditional call forwarding.</span> From your host phone, forward calls when busy or unanswered to your TableTalk number. Your existing number stays public.</li>
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 3 — Upload your menu and rules.</span> Menu, hours, policies, dietary notes. The AI reads them all from your live setup.</li>
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 4 — Pick a voice and test.</span> Make a test call, watch the booking land in OpenTable, adjust the greeting to taste. Go live the same shift.</li>
+          </ol>
+
+          <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">Setup guide: Resy</h2>
+          <ol class="mt-4 space-y-4">
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 1 — Connect your Resy account.</span> Authorize in TableTalk the same way — a couple of clicks, done in minutes.</li>
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 2 — Forward your line.</span> Conditional forwarding means TableTalk answers when you're busy, after hours, or at the door — never when a host is available.</li>
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 3 — Set your house rules.</span> Deposit policies, party caps, and same-night booking windows all become part of what the AI enforces.</li>
+            <li class="rounded-2xl border border-zinc-200 bg-white p-5"><span class="font-semibold text-zinc-900">Step 4 — Test a booking end-to-end.</span> Call in, book a table, and confirm it appears in Resy before your next service.</li>
+          </ol>
+
+          <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">Which one should you choose?</h2>
+          <ul class="mt-4 space-y-3 pl-5 marker:text-amber-500 list-disc">
+            <li><strong>Pick OpenTable</strong> if you want the largest discovery marketplace and you operate in a market where guests search it by default.</li>
+            <li><strong>Pick Resy</strong> if you're an independent with a strong brand and want a more curated, hype-friendly booking experience.</li>
+            <li><strong>Pick both</strong> if your market splits across the two — TableTalk removes the friction of maintaining separate phone setups.</li>
+          </ul>
+
+          <p>Whatever you choose, the phone AI's job is the same: never let a caller who's ready to book become a missed reservation.</p>
+
+          <div class="rounded-3xl border border-amber-200 bg-amber-50/60 p-8 text-center">
+            <h3 class="font-display text-2xl font-semibold text-zinc-900">Setup with us takes one call</h3>
+            <p class="mt-3 text-sm text-zinc-600">We connect OpenTable, Resy, or both while you're on the phone. Live before your next shift.</p>
+            <a href="index.html#cta" class="btn-primary mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-8 py-4 text-sm font-semibold text-white">
+              Start your free trial <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <section class="mt-16">
+          <h2 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900">Quick answers</h2>
+          <div class="mt-8 space-y-3">
+            <div class="rounded-2xl border border-zinc-200 bg-white p-6">
+              <h3 class="font-semibold text-zinc-900">Can one phone AI work with both OpenTable and Resy?</h3>
+              <p class="mt-2 text-sm leading-relaxed text-zinc-600">Yes. TableTalk handles both from a single line and dashboard, so you never have to pick between the two platforms.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 bg-white p-6">
+              <h3 class="font-semibold text-zinc-900">Is connecting an AI phone system to OpenTable or Resy hard?</h3>
+              <p class="mt-2 text-sm leading-relaxed text-zinc-600">No. With TableTalk it's an authorize-and-forward flow: you connect your reservation account, turn on conditional call forwarding, and the AI goes live in about 5 minutes.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 bg-white p-6">
+              <h3 class="font-semibold text-zinc-900">Will the AI ever book a wrong cover count or time?</h3>
+              <p class="mt-2 text-sm leading-relaxed text-zinc-600">The AI reads availability before booking, repeats the details back for confirmation, and logs every reservation. Guests also receive an SMS confirmation, so errors surface immediately.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </article>
+
+  <section class="bg-espresso py-16 text-white">
+    <div class="mx-auto max-w-4xl px-4 text-center sm:px-6">
+      <h2 class="text-3xl font-semibold tracking-tight">Both platforms. One AI receptionist.</h2>
+      <p class="mt-4 text-lg text-zinc-300">Flat $50/month. Unlimited calls. Live in 5 minutes.</p>
+      <a href="index.html#cta" class="btn-primary mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-8 py-4 text-sm font-semibold text-white">
+        Start your free trial <i data-lucide="arrow-right" class="h-4 w-4"></i>
+      </a>
+    </div>
+  </section>
+
+  <footer class="bg-espresso py-12 text-zinc-400">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 sm:flex-row sm:px-6">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600"><i data-lucide="phone-call" class="h-5 w-5 text-white"></i></span>
+        <span class="text-lg font-semibold tracking-tight text-white">TableTalk <span class="text-amber-400">AI</span></span>
+      </a>
+      <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+        <a href="how-much-revenue-restaurants-lose-unanswered-calls.html" class="hover:text-amber-400">Missed Call Revenue</a>
+        <a href="restaurant-host-stand-burnout-staffing-solutions.html" class="hover:text-amber-400">Host Stand Burnout</a>
+        <a href="integrations/opentable-ai-phone-booking.html" class="hover:text-amber-400">OpenTable AI Booking</a>
+        <a href="index.html" class="hover:text-amber-400">Home</a>
+      </nav>
+      <p class="text-xs">&copy; <span id="year">2026</span> TableTalk AI.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.addEventListener('DOMContentLoaded', function () { lucide.createIcons(); });
+  </script>
+</body>
+</html>

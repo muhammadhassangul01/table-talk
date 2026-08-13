@@ -9,6 +9,11 @@
   <meta name="author" content="TableTalk AI" />
   <meta name="theme-color" content="#171310" />
   <link rel="canonical" href="https://table-talk.tech/" />
+  <meta name="geo.region" content="US" />
+  <meta name="geo.placename" content="United States" />
+  <meta name="geo.position" content="37.0902;-95.7129" />
+  <meta name="ICBM" content="37.0902, -95.7129" />
+  <meta name="target" content="restaurants in the United States and Canada" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -30,116 +35,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['Fraunces', 'serif'],
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            espresso: '#171310',
-            cream: '#FAF6F0',
-          },
-        },
-      },
-    };
-  </script>
-
-  <style>
-    [x-cloak] { display: none !important; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; }
-    h1, h2, h3, .font-display { font-family: 'Fraunces', serif; }
-    ::selection { background: #F59E0B; color: #171310; }
-
-    .scrollbar-none::-webkit-scrollbar { display: none; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes scaleIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
-    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    @keyframes pulseRing { 0% { transform: scale(.85); opacity: .8; } 100% { transform: scale(1.9); opacity: 0; } }
-    @keyframes wave { 0%,100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
-    @keyframes shine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-    @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-20px) scale(1.06); } 66% { transform: translate(-20px,15px) scale(.97); } }
-    @keyframes breathe { 0%,100% { opacity: .45; transform: scale(1); } 50% { opacity: .8; transform: scale(1.08); } }
-
-    .animate-fadeUp  { animation: fadeUp .8s cubic-bezier(.2,.7,.2,1) both; }
-    .animate-fadeIn  { animation: fadeIn .9s ease both; }
-    .animate-scaleIn { animation: scaleIn .7s cubic-bezier(.2,.7,.2,1) both; }
-    .animate-float   { animation: floatY 6s ease-in-out infinite; }
-    .animate-breathe { animation: breathe 5s ease-in-out infinite; }
-
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
-    .reveal.is-visible { opacity: 1; transform: none; }
-    .reveal-left  { opacity: 0; transform: translateX(-36px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
-    .reveal-right { opacity: 0; transform: translateX(36px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
-    .reveal-left.is-visible, .reveal-right.is-visible { opacity: 1; transform: none; }
-
-    .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
-    .marquee-track:hover { animation-play-state: paused; }
-
-    .pulse-ring { animation: pulseRing 2s cubic-bezier(.2,.7,.2,1) infinite; }
-
-    .wave-bar { animation: wave 1s ease-in-out infinite; transform-origin: center; }
-
-    .text-shine {
-      background: linear-gradient(90deg,#F5A524 0%,#FFE9A0 50%,#F5A524 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      animation: shine 4s linear infinite;
-    }
-
-    .btn-primary {
-      position: relative; overflow: hidden;
-      transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(245,158,11,.55); }
-    .btn-primary:active { transform: translateY(0); }
-
-    .card-lift { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
-    .card-lift:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -16px rgba(23,19,16,.18); }
-
-    .img-zoom img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
-    .img-zoom:hover img { transform: scale(1.07); }
-
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content: ''; position: absolute; left: 0; bottom: -4px; height: 2px; width: 0;
-      background: linear-gradient(90deg,#F5A524,#EA580C); transition: width .3s ease;
-    }
-    .nav-link:hover::after { width: 100%; }
-
-    .tick-line li { position: relative; }
-    .tick-line li::before {
-      content: ''; position: absolute; left: -1.35rem; top: .2rem;
-      width: 1rem; height: 1rem; border-radius: 9999px;
-      background: radial-gradient(circle, #FBBF24 45%, #EA580C 100%);
-    }
-
-    .gradient-text {
-      background: linear-gradient(120deg,#FBBF24, #EA580C 60%, #F59E0B);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-
-    .squiggle {
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='12' viewBox='0 0 120 12'><path d='M2,8 C15,1 28,11 42,6 C58,1 70,10 86,5 C100,1 112,8 118,4' fill='none' stroke='%23F59E0B' stroke-width='3' stroke-linecap='round' opacity='0.6'/></svg>");
-      background-repeat: no-repeat; background-position: center bottom; background-size: 90% 8px; opacity: 0; transition: opacity .8s ease;
-    }
-    .squiggle.is-visible { opacity: 1; }
-  </style>
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -153,6 +51,11 @@
         "url": "https://table-talk.tech/",
         "logo": "https://table-talk.tech/og-image.jpg",
         "email": "support@tabletalkai.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US"
+        },
+        "areaServed": "North America",
         "sameAs": [
           "https://twitter.com/tabletalkai",
           "https://www.linkedin.com/company/tabletalk-ai",
@@ -267,6 +170,9 @@
     ]
   }
   </script>
+
+
+  <link rel="stylesheet" href="css/main.css" />
 </head>
 
 <body class="bg-cream text-zinc-800 antialiased overflow-x-hidden">
@@ -326,7 +232,7 @@
   <!-- Hero -->
   <section id="top" class="relative overflow-hidden bg-espresso pt-28 pb-24 sm:pt-36 sm:pb-28 lg:flex lg:min-h-screen lg:items-center lg:pb-12">
     <div class="absolute inset-0">
-      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80" alt="Elegant restaurant dining room"
+      <img width="1800" height="1200" src="images/photo-1517248135467-4c7edcad34c4-1800.webp" alt="Elegant restaurant dining room"
            class="h-full w-full object-cover opacity-25" loading="eager" />
       <div class="absolute inset-0 bg-gradient-to-b from-espresso/80 via-espresso/70 to-espresso"></div>
       <div class="animate-breathe absolute -top-24 -right-24 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl"></div>
@@ -375,10 +281,10 @@
 
           <div class="animate-fadeUp mt-10 flex items-center gap-4 border-t border-white/10 pt-7" style="animation-delay:.6s">
             <div class="flex -space-x-3">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
-              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
-              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
-              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+              <img width="96" height="144" src="images/photo-1507003211169-0a1dd7228f2d-96.webp" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+              <img width="96" height="144" src="images/photo-1500648767791-00dcc994a43e-96.webp" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+              <img width="96" height="64" src="images/photo-1472099645785-5658abf4ff4e-96.webp" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+              <img width="96" height="144" src="images/photo-1506794778202-cad84cf45f1d-96.webp" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
             </div>
             <div>
               <div class="flex items-center gap-1 text-amber-400">
@@ -397,7 +303,7 @@
               <!-- Demo video slot: drop your portrait video here -->
               <video id="demoVideo" controls playsinline preload="metadata"
                      class="aspect-[9/16] w-full rounded-[1.9rem] object-cover"
-                     poster="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=640&q=80">
+                     poster="images/photo-1414235077428-338989a2e8c0-640.webp">
                 <source src="demo-video.mp4" type="video/mp4" />
               </video>
 
@@ -523,7 +429,7 @@
       <div class="mt-16 grid gap-8 md:grid-cols-3">
         <div class="reveal card-lift group rounded-3xl border border-zinc-200 bg-cream p-8 text-center" style="transition-delay:.05s">
           <div class="relative mx-auto h-24 w-24 overflow-hidden rounded-2xl img-zoom">
-            <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=400&q=80" alt="Restaurant phone booth with modern phone" class="h-full w-full object-cover" loading="lazy" />
+            <img width="400" height="711" src="images/photo-1598327105666-5b89351aff97-400.webp" alt="Restaurant phone booth with modern phone" class="h-full w-full object-cover" loading="lazy" />
           </div>
           <p class="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Step 1</p>
           <h3 class="mt-2 font-display text-xl font-semibold text-zinc-900">Connect your line</h3>
@@ -532,7 +438,7 @@
 
         <div class="reveal card-lift group rounded-3xl border border-zinc-200 bg-cream p-8 text-center" style="transition-delay:.15s">
           <div class="relative mx-auto h-24 w-24 overflow-hidden rounded-2xl img-zoom">
-            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=400&q=80" alt="Restaurant interior at night" class="h-full w-full object-cover" loading="lazy" />
+            <img width="400" height="300" src="images/photo-1514933651103-005eec06c04b-400.webp" alt="Restaurant interior at night" class="h-full w-full object-cover" loading="lazy" />
           </div>
           <p class="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Step 2</p>
           <h3 class="mt-2 font-display text-xl font-semibold text-zinc-900">Train it on your menu</h3>
@@ -541,7 +447,7 @@
 
         <div class="reveal card-lift group rounded-3xl border border-zinc-200 bg-cream p-8 text-center" style="transition-delay:.25s">
           <div class="relative mx-auto h-24 w-24 overflow-hidden rounded-2xl img-zoom">
-            <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=400&q=80" alt="Busy restaurant bar during service" class="h-full w-full object-cover" loading="lazy" />
+            <img width="400" height="600" src="images/photo-1540189549336-e6e99c3679fe-400.webp" alt="Busy restaurant bar during service" class="h-full w-full object-cover" loading="lazy" />
           </div>
           <p class="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Step 3</p>
           <h3 class="mt-2 font-display text-xl font-semibold text-zinc-900">Run the floor</h3>
@@ -562,22 +468,22 @@
 
       <div class="mt-16 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
         <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.05s">
-          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Plated steak dish" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <img width="800" height="534" src="images/photo-1544025162-d76694265947-800.webp" alt="Plated steak dish" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
           <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Fine dining</p>
         </div>
         <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.12s">
-          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Colorful gourmet dishes" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <img width="800" height="533" src="images/photo-1504674900247-0877df9cc836-800.webp" alt="Colorful gourmet dishes" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
           <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Modern gastropubs</p>
         </div>
         <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.19s">
-          <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=800&q=80" alt="Stacked burgers and fries" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <img width="800" height="534" src="images/photo-1551782450-a2132b4ba21d-800.webp" alt="Stacked burgers and fries" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
           <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Neighborhood favorites</p>
         </div>
         <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.26s">
-          <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=800&q=80" alt="Cocktail at a bar" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <img width="800" height="1067" src="images/photo-1543007630-9710e4a00a20-800.webp" alt="Cocktail at a bar" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
           <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Wine bars & beyond</p>
         </div>
@@ -664,7 +570,7 @@
           </div>
 
           <div class="relative mx-auto max-w-md overflow-hidden rounded-[2.2rem] border-[6px] border-espresso bg-white shadow-2xl shadow-espresso/30">
-            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Elegant restaurant dining room" class="h-[26rem] w-full object-cover sm:h-[30rem]" loading="lazy" />
+            <img width="800" height="533" src="images/photo-1517248135467-4c7edcad34c4-800.webp" alt="Elegant restaurant dining room" class="h-[26rem] w-full object-cover sm:h-[30rem]" loading="lazy" />
             <div class="absolute inset-0 bg-gradient-to-t from-espresso/80 via-transparent to-transparent"></div>
 
             <div class="absolute bottom-5 left-4 right-4 rounded-2xl border border-white/15 bg-black/55 p-4 backdrop-blur-lg">
@@ -705,7 +611,7 @@
   <!-- Results / ROI -->
   <section id="results" class="relative overflow-hidden bg-espresso py-24">
     <div class="absolute inset-0">
-      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1800&q=80" alt="Waiter pouring wine at a fine dining table" class="h-full w-full object-cover opacity-20" loading="lazy" />
+      <img width="1200" height="1450" src="images/photo-1565299624946-b28f40a0ae38-1200.webp" alt="Waiter pouring wine at a fine dining table" class="h-full w-full object-cover opacity-20" loading="lazy" />
       <div class="absolute inset-0 bg-gradient-to-b from-espresso via-espresso/85 to-espresso"></div>
     </div>
 
@@ -760,7 +666,7 @@
           <div class="flex items-center gap-1 text-amber-500"><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i></div>
           <p class="mt-5 flex-1 text-[15px] leading-relaxed text-zinc-600">"Our hosts were sprinting from the door to the phone all night. TableTalk answers in half a ring and books parties while my team seats the floor. Saturday night revenue is up and the stress is gone."</p>
           <div class="mt-7 flex items-center gap-3.5 border-t border-zinc-100 pt-6">
-            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Marcus Bennett" class="h-11 w-11 rounded-full" loading="lazy" />
+            <img width="96" height="144" src="images/photo-1560250097-0b93528c311a-96.webp" alt="Marcus Bennett" class="h-11 w-11 rounded-full" loading="lazy" />
             <div>
               <p class="text-sm font-semibold text-zinc-900">Marcus Bennett</p>
               <p class="text-xs text-zinc-500">Owner, The Copper Spoon</p>
@@ -772,7 +678,7 @@
           <div class="flex items-center gap-1 text-amber-500"><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i></div>
           <p class="mt-5 flex-1 text-[15px] leading-relaxed text-zinc-600">"I was skeptical a robot could sound natural. A caller left a five-star review saying our 'new host' was a delight — it was the AI. Guests ask for her by name now."</p>
           <div class="mt-7 flex items-center gap-3.5 border-t border-zinc-100 pt-6">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80" alt="Miguel Santos" class="h-11 w-11 rounded-full" loading="lazy" />
+            <img width="96" height="64" src="images/photo-1472099645785-5658abf4ff4e-96.webp" alt="Miguel Santos" class="h-11 w-11 rounded-full" loading="lazy" />
             <div>
               <p class="text-sm font-semibold text-zinc-900">Miguel Santos</p>
               <p class="text-xs text-zinc-500">GM, Casa Verde</p>
@@ -784,7 +690,7 @@
           <div class="flex items-center gap-1 text-amber-500"><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i></div>
           <p class="mt-5 flex-1 text-[15px] leading-relaxed text-zinc-600">"We're a small team that used to have voicemail we never checked. Now the AI handles after-hours, texts guests the menu, and I get a summary every morning. Best $50 I spend on the business."</p>
           <div class="mt-7 flex items-center gap-3.5 border-t border-zinc-100 pt-6">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Daniel Okafor" class="h-11 w-11 rounded-full" loading="lazy" />
+            <img width="96" height="144" src="images/photo-1500648767791-00dcc994a43e-96.webp" alt="Daniel Okafor" class="h-11 w-11 rounded-full" loading="lazy" />
             <div>
               <p class="text-sm font-semibold text-zinc-900">Daniel Okafor</p>
               <p class="text-xs text-zinc-500">Founder, Ember & Oak</p>
@@ -921,10 +827,56 @@
     </div>
   </section>
 
+  <!-- Resources / topical hub -->
+  <section id="resources" class="bg-white py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Explore</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">The restaurant phone authority hub</h2>
+        <p class="mt-5 text-lg text-zinc-600">Compare TableTalk against the tools you already use, and dig into the guides that keep your floor running.</p>
+      </div>
+
+      <div class="mt-14 grid gap-8 md:grid-cols-3">
+        <div class="reveal card-lift rounded-3xl border border-zinc-200 bg-cream p-8" style="transition-delay:.05s">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Alternatives</p>
+          <h3 class="mt-3 font-display text-xl font-semibold text-zinc-900">Switching made simple</h3>
+          <ul class="mt-5 space-y-3 text-sm">
+            <li><a href="slang-ai-alternative.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">Slang.ai alternative <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="popmenu-alternative.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">Popmenu alternative <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="soundhound-for-restaurants-alternative.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">SoundHound for Restaurants alternative <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="google-duplex-for-restaurants.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">Google Duplex for restaurants <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+          </ul>
+        </div>
+
+        <div class="reveal card-lift rounded-3xl border border-zinc-200 bg-cream p-8" style="transition-delay:.12s">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Integrations</p>
+          <h3 class="mt-3 font-display text-xl font-semibold text-zinc-900">Your stack, covered</h3>
+          <ul class="mt-5 space-y-3 text-sm">
+            <li><a href="integrations/opentable-ai-phone-booking.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">OpenTable AI phone booking <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="integrations/resy-ai-receptionist.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">Resy AI receptionist <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="integrations/toast-pos-phone-answering.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">Toast POS phone answering <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="integrations/index.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">All integrations <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+          </ul>
+        </div>
+
+        <div class="reveal card-lift rounded-3xl border border-zinc-200 bg-cream p-8" style="transition-delay:.19s">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Guides</p>
+          <h3 class="mt-3 font-display text-xl font-semibold text-zinc-900">Evidence, not opinions</h3>
+          <ul class="mt-5 space-y-3 text-sm">
+            <li><a href="how-much-revenue-restaurants-lose-unanswered-calls.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">How much revenue unanswered calls cost <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="opentable-vs-resy-phone-integration-guide.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">OpenTable vs Resy setup guide <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="restaurant-host-stand-burnout-staffing-solutions.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">Host stand burnout solutions <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+            <li><a href="how-to-answer-restaurant-phones.html" class="inline-flex items-center gap-1.5 font-medium text-zinc-700 transition hover:text-amber-600">How to answer restaurant phones <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section id="cta" class="relative overflow-hidden py-24">
     <div class="absolute inset-0">
-      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=80" alt="Fine dining restaurant table" class="h-full w-full object-cover" loading="lazy" />
+      <img width="1800" height="1200" src="images/photo-1414235077428-338989a2e8c0-1800.webp" alt="Fine dining restaurant table" class="h-full w-full object-cover" loading="lazy" />
       <div class="absolute inset-0 bg-gradient-to-br from-espresso/95 via-espresso/90 to-orange-950/90"></div>
     </div>
 
@@ -1015,19 +967,23 @@
             <li><a href="ai-phone-receptionist-for-restaurants.html" class="transition hover:text-amber-400">AI Phone Receptionist for Restaurants</a></li>
             <li><a href="restaurant-phone-answering-service.html" class="transition hover:text-amber-400">Restaurant Phone Answering Service</a></li>
             <li><a href="restaurant-phone-booking-bot.html" class="transition hover:text-amber-400">Restaurant Phone Booking Bot</a></li>
-            <li><a href="opentable-resy-ai-reservation-assistant.html" class="transition hover:text-amber-400">OpenTable &amp; Resy AI Assistant</a></li>
-            <li><a href="how-to-answer-restaurant-phones.html" class="transition hover:text-amber-400">How to Answer Restaurant Phones</a></li>
+            <li><a href="integrations/opentable-ai-phone-booking.html" class="transition hover:text-amber-400">OpenTable AI Phone Booking</a></li>
+            <li><a href="integrations/resy-ai-receptionist.html" class="transition hover:text-amber-400">Resy AI Receptionist</a></li>
+            <li><a href="integrations/toast-pos-phone-answering.html" class="transition hover:text-amber-400">Toast POS Phone Answering</a></li>
+            <li><a href="integrations/index.html" class="transition hover:text-amber-400">All Integrations</a></li>
           </ul>
         </div>
         <div>
-          <p class="text-sm font-semibold text-white">Compare</p>
+          <p class="text-sm font-semibold text-white">Compare &amp; Guides</p>
           <ul class="mt-5 space-y-3 text-sm">
             <li><a href="slang-ai-alternative.html" class="transition hover:text-amber-400">Slang AI Alternative</a></li>
-            <li><a href="popmenu-phone-answering-alternative.html" class="transition hover:text-amber-400">Popmenu Phone Answering Alternative</a></li>
+            <li><a href="popmenu-alternative.html" class="transition hover:text-amber-400">Popmenu Alternative</a></li>
+            <li><a href="soundhound-for-restaurants-alternative.html" class="transition hover:text-amber-400">SoundHound for Restaurants Alternative</a></li>
             <li><a href="google-duplex-for-restaurants.html" class="transition hover:text-amber-400">Google Duplex for Restaurants</a></li>
-            <li><a href="mailto:support@tabletalkai.com" class="transition hover:text-amber-400">support@tabletalkai.com</a></li>
-            <li><a href="#" class="transition hover:text-amber-400">Privacy policy</a></li>
-            <li><a href="#" class="transition hover:text-amber-400">Terms of service</a></li>
+            <li><a href="how-to-answer-restaurant-phones.html" class="transition hover:text-amber-400">How to Answer Restaurant Phones</a></li>
+            <li><a href="how-much-revenue-restaurants-lose-unanswered-calls.html" class="transition hover:text-amber-400">Cost of Unanswered Calls</a></li>
+            <li><a href="opentable-vs-resy-phone-integration-guide.html" class="transition hover:text-amber-400">OpenTable vs Resy Guide</a></li>
+            <li><a href="restaurant-host-stand-burnout-staffing-solutions.html" class="transition hover:text-amber-400">Host Stand Burnout</a></li>
           </ul>
         </div>
       </div>

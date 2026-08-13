@@ -1,0 +1,88 @@
+/** Source CSS entry: Tailwind directives + shared site styles. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Base ---- */
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; }
+h1, h2, h3, .font-display { font-family: 'Fraunces', serif; }
+::selection { background: #F59E0B; color: #171310; }
+
+[x-cloak] { display: none !important; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ---- Animations ---- */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes pulseRing { 0% { transform: scale(.85); opacity: .8; } 100% { transform: scale(1.9); opacity: 0; } }
+@keyframes wave { 0%,100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
+@keyframes shine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-20px) scale(1.06); } 66% { transform: translate(-20px,15px) scale(.97); } }
+@keyframes breathe { 0%,100% { opacity: .45; transform: scale(1); } 50% { opacity: .8; transform: scale(1.08); } }
+
+.animate-fadeUp  { animation: fadeUp .8s cubic-bezier(.2,.7,.2,1) both; }
+.animate-fadeIn  { animation: fadeIn .9s ease both; }
+.animate-scaleIn { animation: scaleIn .7s cubic-bezier(.2,.7,.2,1) both; }
+.animate-float   { animation: floatY 6s ease-in-out infinite; }
+.animate-breathe { animation: breathe 5s ease-in-out infinite; }
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+.reveal-left  { opacity: 0; transform: translateX(-36px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
+.reveal-right { opacity: 0; transform: translateX(36px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
+.reveal-left.is-visible, .reveal-right.is-visible { opacity: 1; transform: none; }
+
+.marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
+.pulse-ring { animation: pulseRing 2s cubic-bezier(.2,.7,.2,1) infinite; }
+
+.wave-bar { animation: wave 1s ease-in-out infinite; transform-origin: center; }
+
+.text-shine {
+  background: linear-gradient(90deg,#F5A524 0%,#FFE9A0 50%,#F5A524 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+/* ---- Components ---- */
+.btn-primary { position: relative; overflow: hidden; transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(245,158,11,.55); }
+.btn-primary:active { transform: translateY(0); }
+
+.card-lift { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
+.card-lift:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -16px rgba(23,19,16,.18); }
+
+.img-zoom img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.img-zoom:hover img { transform: scale(1.07); }
+
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ''; position: absolute; left: 0; bottom: -4px; height: 2px; width: 0;
+  background: linear-gradient(90deg,#F5A524,#EA580C); transition: width .3s ease;
+}
+.nav-link:hover::after { width: 100%; }
+
+.tick-line li { position: relative; }
+.tick-line li::before {
+  content: ''; position: absolute; left: -1.35rem; top: .2rem;
+  width: 1rem; height: 1rem; border-radius: 9999px;
+  background: radial-gradient(circle, #FBBF24 45%, #EA580C 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(120deg,#FBBF24, #EA580C 60%, #F59E0B);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.squiggle {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='12' viewBox='0 0 120 12'><path d='M2,8 C15,1 28,11 42,6 C58,1 70,10 86,5 C100,1 112,8 118,4' fill='none' stroke='%23F59E0B' stroke-width='3' stroke-linecap='round' opacity='0.6'/></svg>");
+  background-repeat: no-repeat; background-position: center bottom; background-size: 90% 8px;
+  opacity: 0; transition: opacity .8s ease;
+}
+.squiggle.is-visible { opacity: 1; }
