@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TableTalk AI — AI Phone Receptionist for Restaurants</title>
+  <meta name="description" content="TableTalk AI answers every call during peak hours, books tables directly into OpenTable and Resy, and answers menu questions 24/7. Flat $50/month. Start a 7-day free trial." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Fraunces', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            espresso: '#171310',
+            cream: '#FAF6F0',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .font-display { font-family: 'Fraunces', serif; }
+    ::selection { background: #F59E0B; color: #171310; }
+
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes pulseRing { 0% { transform: scale(.85); opacity: .8; } 100% { transform: scale(1.9); opacity: 0; } }
+    @keyframes wave { 0%,100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
+    @keyframes shine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-20px) scale(1.06); } 66% { transform: translate(-20px,15px) scale(.97); } }
+    @keyframes breathe { 0%,100% { opacity: .45; transform: scale(1); } 50% { opacity: .8; transform: scale(1.08); } }
+
+    .animate-fadeUp  { animation: fadeUp .8s cubic-bezier(.2,.7,.2,1) both; }
+    .animate-fadeIn  { animation: fadeIn .9s ease both; }
+    .animate-scaleIn { animation: scaleIn .7s cubic-bezier(.2,.7,.2,1) both; }
+    .animate-float   { animation: floatY 6s ease-in-out infinite; }
+    .animate-breathe { animation: breathe 5s ease-in-out infinite; }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    .reveal-left  { opacity: 0; transform: translateX(-36px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
+    .reveal-right { opacity: 0; transform: translateX(36px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
+    .reveal-left.is-visible, .reveal-right.is-visible { opacity: 1; transform: none; }
+
+    .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    .pulse-ring { animation: pulseRing 2s cubic-bezier(.2,.7,.2,1) infinite; }
+
+    .wave-bar { animation: wave 1s ease-in-out infinite; transform-origin: center; }
+
+    .text-shine {
+      background: linear-gradient(90deg,#F5A524 0%,#FFE9A0 50%,#F5A524 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shine 4s linear infinite;
+    }
+
+    .btn-primary {
+      position: relative; overflow: hidden;
+      transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(245,158,11,.55); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .card-lift { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
+    .card-lift:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -16px rgba(23,19,16,.18); }
+
+    .img-zoom img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+    .img-zoom:hover img { transform: scale(1.07); }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; bottom: -4px; height: 2px; width: 0;
+      background: linear-gradient(90deg,#F5A524,#EA580C); transition: width .3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .tick-line li { position: relative; }
+    .tick-line li::before {
+      content: ''; position: absolute; left: -1.35rem; top: .2rem;
+      width: 1rem; height: 1rem; border-radius: 9999px;
+      background: radial-gradient(circle, #FBBF24 45%, #EA580C 100%);
+    }
+
+    .gradient-text {
+      background: linear-gradient(120deg,#FBBF24, #EA580C 60%, #F59E0B);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .squiggle {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='12' viewBox='0 0 120 12'><path d='M2,8 C15,1 28,11 42,6 C58,1 70,10 86,5 C100,1 112,8 118,4' fill='none' stroke='%23F59E0B' stroke-width='3' stroke-linecap='round' opacity='0.6'/></svg>");
+      background-repeat: no-repeat; background-position: center bottom; background-size: 90% 8px; opacity: 0; transition: opacity .8s ease;
+    }
+    .squiggle.is-visible { opacity: 1; }
+  </style>
+</head>
+
+<body class="bg-cream text-zinc-800 antialiased overflow-x-hidden">
+
+  <!-- Navbar -->
+  <header x-data="{ open: false, scrolled: false }" @scroll.window="scrolled = window.scrollY > 30"
+          class="fixed inset-x-0 top-0 z-40 transition-all duration-300"
+          :class="scrolled || open ? 'bg-espresso/95 shadow-lg shadow-black/20 backdrop-blur-md' : 'bg-transparent'">
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="#top" class="flex items-center gap-2.5">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 shadow-lg shadow-amber-500/30">
+            <i data-lucide="phone-call" class="h-5 w-5 text-white"></i>
+          </span>
+          <span class="text-lg font-semibold tracking-tight text-white">TableTalk&nbsp;<span class="text-amber-400">AI</span></span>
+        </a>
+
+        <div class="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
+          <a href="#how-it-works" class="nav-link hover:text-white">How it works</a>
+          <a href="#gallery" class="nav-link hover:text-white">Dining</a>
+          <a href="#features" class="nav-link hover:text-white">Features</a>
+          <a href="#results" class="nav-link hover:text-white">Results</a>
+          <a href="#pricing" class="nav-link hover:text-white">Pricing</a>
+          <a href="#faq" class="nav-link hover:text-white">FAQ</a>
+        </div>
+
+        <div class="hidden items-center gap-3 md:flex">
+          <button @click="$dispatch('open-demo')" class="flex items-center gap-2 text-sm text-zinc-300 hover:text-white">
+            <i data-lucide="play-circle" class="h-4 w-4 text-amber-400"></i> Hear a demo call
+          </button>
+          <a href="#cta" class="btn-primary rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-2.5 text-sm font-semibold text-white">Start free trial</a>
+        </div>
+
+        <button @click="open = !open" class="p-2 text-white md:hidden" aria-label="Toggle navigation">
+          <i data-lucide="menu" x-show="!open" class="h-5 w-5"></i>
+          <i data-lucide="x" x-show="open" class="h-5 w-5" x-cloak></i>
+        </button>
+      </div>
+    </nav>
+
+    <div x-show="open" x-collapse x-cloak class="border-t border-white/10 md:hidden">
+      <div class="space-y-1 px-4 py-4">
+        <a href="#how-it-works" @click="open = false" class="block rounded-lg px-3 py-2.5 text-sm text-zinc-300 hover:bg-white/5 hover:text-white">How it works</a>
+        <a href="#gallery" @click="open = false" class="block rounded-lg px-3 py-2.5 text-sm text-zinc-300 hover:bg-white/5 hover:text-white">Dining</a>
+        <a href="#features" @click="open = false" class="block rounded-lg px-3 py-2.5 text-sm text-zinc-300 hover:bg-white/5 hover:text-white">Features</a>
+        <a href="#results" @click="open = false" class="block rounded-lg px-3 py-2.5 text-sm text-zinc-300 hover:bg-white/5 hover:text-white">Results</a>
+        <a href="#pricing" @click="open = false" class="block rounded-lg px-3 py-2.5 text-sm text-zinc-300 hover:bg-white/5 hover:text-white">Pricing</a>
+        <a href="#faq" @click="open = false" class="block rounded-lg px-3 py-2.5 text-sm text-zinc-300 hover:bg-white/5 hover:text-white">FAQ</a>
+        <div class="space-y-2 pt-2">
+          <a href="#cta" @click="open = false" class="block rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 px-3 py-3 text-center text-sm font-semibold text-white">Start free trial</a>
+          <button @click="open = false; $dispatch('open-demo')" class="block w-full rounded-lg border border-white/15 px-3 py-3 text-center text-sm text-white">Hear a demo call</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="top" class="relative overflow-hidden bg-espresso pt-28 pb-24 sm:pt-36 sm:pb-28 lg:flex lg:min-h-screen lg:items-center lg:pb-12">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80" alt="Elegant restaurant dining room"
+           class="h-full w-full object-cover opacity-25" loading="eager" />
+      <div class="absolute inset-0 bg-gradient-to-b from-espresso/80 via-espresso/70 to-espresso"></div>
+      <div class="animate-breathe absolute -top-24 -right-24 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl"></div>
+      <div class="animate-breathe absolute -bottom-32 -left-24 h-[28rem] w-[28rem] rounded-full bg-orange-600/10 blur-3xl" style="animation-delay: -2.5s"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid items-center gap-16 lg:grid-cols-2">
+
+        <div>
+          <div class="animate-fadeUp inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-1.5 text-xs font-medium text-amber-300" style="animation-delay:.05s">
+            <span class="relative flex h-2 w-2">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-400"></span>
+            </span>
+            Answering calls in under 1 second
+          </div>
+
+          <h1 class="animate-fadeUp mt-6 text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl" style="animation-delay:.15s">
+            Never lose another reservation<br />
+            to <span class="gradient-text">voicemail</span> again.
+          </h1>
+
+          <p class="animate-fadeUp mt-6 max-w-xl text-lg leading-relaxed text-zinc-300" style="animation-delay:.28s">
+            TableTalk is the AI phone receptionist built for restaurants. It answers every single call, books tables
+            straight into OpenTable and Resy, and texts guests your menu — during the dinner rush, after hours,
+            every day. In your voice, on your rules.
+          </p>
+
+          <div class="animate-fadeUp mt-9 flex flex-col gap-4 sm:flex-row" style="animation-delay:.4s">
+            <a href="#cta" class="btn-primary flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-7 py-3.5 text-sm font-semibold text-white">
+              Start your 7-day free trial
+              <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            </a>
+            <button @click="$dispatch('open-demo')" class="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10">
+              <i data-lucide="headphones" class="h-4 w-4 text-amber-400"></i>
+              Hear it answer a booking
+            </button>
+          </div>
+
+          <div class="animate-fadeUp mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-400" style="animation-delay:.5s">
+            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="h-4 w-4 text-amber-400"></i> No credit card required</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="h-4 w-4 text-amber-400"></i> Setup in under 5 minutes</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="h-4 w-4 text-amber-400"></i> Cancel anytime</span>
+          </div>
+
+          <div class="animate-fadeUp mt-10 flex items-center gap-4 border-t border-white/10 pt-7" style="animation-delay:.6s">
+            <div class="flex -space-x-3">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80" alt="Restaurant owner" class="h-9 w-9 rounded-full border-2 border-espresso" />
+            </div>
+            <div>
+              <div class="flex items-center gap-1 text-amber-400">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-current"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-current"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-current"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-current"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-current"></i>
+              </div>
+              <p class="text-xs text-zinc-400"><span class="font-semibold text-white">4.9/5</span> from 200+ restaurants</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="animate-fadeIn relative mx-auto w-full max-w-[430px] lg:ml-auto" style="animation-delay:.25s">
+          <div class="animate-float relative mx-auto w-72 sm:w-80 lg:w-[340px]">
+            <div class="absolute -inset-3 rounded-[3rem] bg-gradient-to-b from-amber-400/40 to-orange-600/40 blur-2xl"></div>
+
+            <div class="relative rounded-[2.4rem] border-[6px] border-zinc-700 bg-black p-2 shadow-2xl shadow-black/60">
+              <!-- Demo video slot: drop your portrait video here -->
+              <video id="demoVideo" controls playsinline preload="metadata"
+                     class="aspect-[9/16] w-full rounded-[1.9rem] object-cover"
+                     poster="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=640&q=80">
+                <source src="demo-video.mp4" type="video/mp4" />
+              </video>
+
+              <div id="demoOverlay" onclick="document.getElementById('demoVideo').play()" class="absolute inset-0 flex cursor-pointer flex-col items-center justify-center rounded-[2rem]">
+                <div class="relative flex h-20 w-20 items-center justify-center">
+                  <span class="pulse-ring absolute inset-0 rounded-full border-2 border-amber-400/70"></span>
+                  <span class="pulse-ring absolute inset-0 rounded-full border-2 border-amber-400/40" style="animation-delay:.5s"></span>
+                  <span class="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-600 shadow-xl shadow-amber-500/40"
+                        onclick="event.stopPropagation(); document.getElementById('demoVideo').play()">
+                    <i data-lucide="play" class="ml-1 h-8 w-8 fill-white text-white"></i>
+                  </span>
+                </div>
+                <p class="mt-5 rounded-full bg-black/55 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur">Watch the live demo</p>
+              </div>
+            </div>
+
+            <div class="animate-float absolute -left-20 top-16 hidden items-center gap-2.5 rounded-2xl border border-white/10 bg-white/10 p-3.5 shadow-xl backdrop-blur-md sm:flex" style="animation-delay:-2s">
+              <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400"><i data-lucide="calendar-check" class="h-5 w-5"></i></span>
+              <div>
+                <p class="text-xs font-semibold text-white">Reservation booked</p>
+                <p class="text-[10px] text-zinc-300">7:00 PM in OpenTable</p>
+              </div>
+            </div>
+
+            <div class="animate-float absolute -right-16 bottom-24 hidden items-center gap-2.5 rounded-2xl border border-white/10 bg-white/10 p-3.5 shadow-xl backdrop-blur-md sm:flex" style="animation-delay:-4s">
+              <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400/20 text-amber-300"><i data-lucide="message-circle" class="h-5 w-5"></i></span>
+              <div>
+                <p class="text-xs font-semibold text-white">Menu texted</p>
+                <p class="text-[10px] text-zinc-300">Delivered to Sarah</p>
+              </div>
+            </div>
+
+            <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-4 py-1.5 text-[11px] font-semibold text-espresso shadow-lg">
+              Sounds like a real host — <span class="text-orange-600">guaranteed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-4 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 text-zinc-500 md:flex">
+      <span class="text-[10px] uppercase tracking-widest">Scroll</span>
+      <i data-lucide="chevron-down" class="h-4 w-4 animate-bounce"></i>
+    </div>
+  </section>
+
+  <!-- Trust marquee -->
+  <section class="border-y border-zinc-200 bg-white py-8">
+    <p class="text-center text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">Integrates with the tools you already use</p>
+    <div class="relative mt-6 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_15%,black_85%,transparent)]">
+      <div class="marquee-track items-center gap-16 pr-16">
+        <div class="flex items-center gap-16">
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="utensils-crossed" class="h-5 w-5 text-amber-500"></i> OpenTable</span>
+          <span class="flex items-center gap-2 text-xl font-bold text-zinc-400">resy</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="smartphone" class="h-5 w-5 text-amber-500"></i> TOAST</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400">SevenRooms</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="phone" class="h-5 w-5 text-amber-500"></i> Google Voice</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="message-square" class="h-5 w-5 text-amber-500"></i> Yelp</span>
+        </div>
+        <div class="flex items-center gap-16">
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="utensils-crossed" class="h-5 w-5 text-amber-500"></i> OpenTable</span>
+          <span class="flex items-center gap-2 text-xl font-bold text-zinc-400">resy</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="smartphone" class="h-5 w-5 text-amber-500"></i> TOAST</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400">SevenRooms</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="phone" class="h-5 w-5 text-amber-500"></i> Google Voice</span>
+          <span class="flex items-center gap-2 text-lg font-semibold text-zinc-400"><i data-lucide="message-square" class="h-5 w-5 text-amber-500"></i> Yelp</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem vs Solution -->
+  <section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">The problem</p>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">7:30 PM, Saturday night, five callers holding.</h2>
+      <p class="squiggle mt-4 mx-auto h-2 w-44"></p>
+      <p class="mt-5 text-lg leading-relaxed text-zinc-600">Your host is seating tables, your manager is on the floor. Every unanswered call is a party that books down the street.</p>
+    </div>
+
+    <div class="mt-16 grid gap-8 lg:grid-cols-2">
+      <div class="reveal-left card-lift rounded-3xl border border-zinc-200 bg-white p-8 sm:p-10">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display text-2xl font-semibold text-zinc-400">Without TableTalk</h3>
+          <span class="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-100 text-zinc-400"><i data-lucide="phone-off" class="h-5 w-5"></i></span>
+        </div>
+        <ul class="tick-line mt-8 space-y-6 pl-6 text-zinc-600">
+          <li class="leading-relaxed"><span class="font-semibold text-zinc-900">The 6–8 PM rush gets missed.</span> Hosts can't leave the door to answer the phone.</li>
+          <li class="leading-relaxed"><span class="font-semibold text-zinc-900">The call rolls to voicemail.</span> Hungry guests hang up and book the place next door.</li>
+          <li class="leading-relaxed"><span class="font-semibold text-zinc-900">Staff get pulled off the floor</span> to take calls, losing focus on the guests in front of them.</li>
+          <li class="leading-relaxed"><span class="font-semibold text-zinc-900">You never hear about it.</span> No record of who called, what they wanted, or what you lost.</li>
+        </ul>
+        <p class="mt-8 text-sm font-semibold text-zinc-400">The average restaurant loses 1 in 5 calls during peak hours.</p>
+      </div>
+
+      <div class="reveal-right card-lift rounded-3xl bg-gradient-to-br from-espresso to-[#2A2119] p-8 text-white shadow-2xl shadow-espresso/30 sm:p-10">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display text-2xl font-semibold text-amber-300">With TableTalk</h3>
+          <span class="flex h-11 w-11 items-center justify-center rounded-full bg-amber-400/15 text-amber-400"><i data-lucide="sparkles" class="h-5 w-5"></i></span>
+        </div>
+        <ul class="mt-8 space-y-6 text-zinc-300">
+          <li class="flex gap-4"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-amber-400"></i><span class="leading-relaxed"><span class="font-semibold text-white">Every call answered on the first ring</span> — even at full capacity, even after midnight.</span></li>
+          <li class="flex gap-4"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-amber-400"></i><span class="leading-relaxed"><span class="font-semibold text-white">Reservations booked live</span> into OpenTable or Resy while your host seats the floor.</span></li>
+          <li class="flex gap-4"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-amber-400"></i><span class="leading-relaxed"><span class="font-semibold text-white">Menu sent by text in seconds</span> — with the link to order or directions to your door.</span></li>
+          <li class="flex gap-4"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-amber-400"></i><span class="leading-relaxed"><span class="font-semibold text-white">A full log of every call,</span> booking, and guest question delivered to your phone daily.</span></li>
+        </ul>
+        <a href="#how-it-works" class="mt-9 inline-flex items-center gap-2 text-sm font-semibold text-amber-300 transition hover:gap-3 hover:text-amber-200">
+          See how it works <i data-lucide="arrow-right" class="h-4 w-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="bg-white py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">How it works</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">A full-time phone host in under 5 minutes</h2>
+        <p class="mt-5 text-lg text-zinc-600">No new hardware. No new number. No training sessions. Your AI receptionist is live before the next shift.</p>
+      </div>
+
+      <div class="mt-16 grid gap-8 md:grid-cols-3">
+        <div class="reveal card-lift group rounded-3xl border border-zinc-200 bg-cream p-8 text-center" style="transition-delay:.05s">
+          <div class="relative mx-auto h-24 w-24 overflow-hidden rounded-2xl img-zoom">
+            <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=400&q=80" alt="Restaurant phone booth with modern phone" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <p class="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Step 1</p>
+          <h3 class="mt-2 font-display text-xl font-semibold text-zinc-900">Connect your line</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">Enable conditional call forwarding in two minutes. Keep your existing number — TableTalk only answers when you're busy.</p>
+        </div>
+
+        <div class="reveal card-lift group rounded-3xl border border-zinc-200 bg-cream p-8 text-center" style="transition-delay:.15s">
+          <div class="relative mx-auto h-24 w-24 overflow-hidden rounded-2xl img-zoom">
+            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=400&q=80" alt="Restaurant interior at night" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <p class="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Step 2</p>
+          <h3 class="mt-2 font-display text-xl font-semibold text-zinc-900">Train it on your menu</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">The AI learns your menu, hours, dietary options, reservation link, and policies — and picks a voice that fits your brand.</p>
+        </div>
+
+        <div class="reveal card-lift group rounded-3xl border border-zinc-200 bg-cream p-8 text-center" style="transition-delay:.25s">
+          <div class="relative mx-auto h-24 w-24 overflow-hidden rounded-2xl img-zoom">
+            <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=400&q=80" alt="Busy restaurant bar during service" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <p class="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Step 3</p>
+          <h3 class="mt-2 font-display text-xl font-semibold text-zinc-900">Run the floor</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">Focus on your guests. TableTalk answers, books, and texts — then sends you a daily summary of every call.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Made for restaurants</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">The kinds of places that win with TableTalk</h2>
+        <p class="mt-5 text-lg text-zinc-600">From four-star dining rooms to bustling neighborhood favorites — if you take calls, you need this.</p>
+      </div>
+
+      <div class="mt-16 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+        <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.05s">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Plated steak dish" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
+          <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Fine dining</p>
+        </div>
+        <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.12s">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Colorful gourmet dishes" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
+          <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Modern gastropubs</p>
+        </div>
+        <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.19s">
+          <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=800&q=80" alt="Stacked burgers and fries" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
+          <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Neighborhood favorites</p>
+        </div>
+        <div class="reveal img-zoom group relative overflow-hidden rounded-3xl" style="transition-delay:.26s">
+          <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=800&q=80" alt="Cocktail at a bar" class="aspect-[3/4] w-full object-cover transition duration-300 group-hover:rotate-1 group-hover:scale-105" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
+          <p class="absolute bottom-4 left-5 font-display text-lg font-medium text-white">Wine bars & beyond</p>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center">
+        <p class="inline-flex flex-wrap items-center justify-center gap-2 text-sm text-zinc-500">
+          <i data-lucide="shield-check" class="h-4 w-4 text-amber-500"></i>
+          Works with any phone line in North America — landlines, VoIP, and Google Voice.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="bg-white py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid items-center gap-14 lg:grid-cols-2">
+        <div class="reveal-left">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Features</p>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">Everything a perfect host does. Nothing a host can't sleep through.</h2>
+          <p class="mt-5 text-lg text-zinc-600">TableTalk doesn't just answer — it runs phone service the way your best host would, at 3 AM and during a full house.</p>
+
+          <div class="mt-10 space-y-5">
+            <div class="reveal flex gap-5 rounded-2xl border border-transparent p-4 transition hover:border-amber-200 hover:bg-amber-50/50" style="transition-delay:.05s">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white shadow-lg shadow-amber-500/30"><i data-lucide="calendar-check" class="h-5 w-5"></i></span>
+              <div>
+                <h3 class="font-semibold text-zinc-900">Automated reservation booking</h3>
+                <p class="mt-1 text-sm leading-relaxed text-zinc-600">Callers book in real time. Reservations drop straight into OpenTable and Resy, confirmed by text.</p>
+              </div>
+            </div>
+            <div class="reveal flex gap-5 rounded-2xl border border-transparent p-4 transition hover:border-amber-200 hover:bg-amber-50/50" style="transition-delay:.12s">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white shadow-lg shadow-amber-500/30"><i data-lucide="message-circle" class="h-5 w-5"></i></span>
+              <div>
+                <h3 class="font-semibold text-zinc-900">Menu & dietary answers</h3>
+                <p class="mt-1 text-sm leading-relaxed text-zinc-600">Gluten-free? Vegan? Parking? Hours? It answers from your live menu — confidently, every time.</p>
+              </div>
+            </div>
+            <div class="reveal flex gap-5 rounded-2xl border border-transparent p-4 transition hover:border-amber-200 hover:bg-amber-50/50" style="transition-delay:.19s">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white shadow-lg shadow-amber-500/30"><i data-lucide="send" class="h-5 w-5"></i></span>
+              <div>
+                <h3 class="font-semibold text-zinc-900">SMS link dispatcher</h3>
+                <p class="mt-1 text-sm leading-relaxed text-zinc-600">Menu, ordering, and directions sent straight to the caller's phone by text — tap, order, drive.</p>
+              </div>
+            </div>
+            <div class="reveal flex gap-5 rounded-2xl border border-transparent p-4 transition hover:border-amber-200 hover:bg-amber-50/50" style="transition-delay:.26s">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white shadow-lg shadow-amber-500/30"><i data-lucide="bell-ring" class="h-5 w-5"></i></span>
+              <div>
+                <h3 class="font-semibold text-zinc-900">Peak & after-hours modes</h3>
+                <p class="mt-1 text-sm leading-relaxed text-zinc-600">Covers the 6–8 PM crush and every minute after close. No voicemail, no missed guests, no excuses.</p>
+              </div>
+            </div>
+            <div class="reveal flex gap-5 rounded-2xl border border-transparent p-4 transition hover:border-amber-200 hover:bg-amber-50/50" style="transition-delay:.33s">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white shadow-lg shadow-amber-500/30"><i data-lucide="bar-chart-3" class="h-5 w-5"></i></span>
+              <div>
+                <h3 class="font-semibold text-zinc-900">Daily call analytics</h3>
+                <p class="mt-1 text-sm leading-relaxed text-zinc-600">Calls, bookings, and questions summarized each day. Know exactly what you'd otherwise have lost.</p>
+              </div>
+            </div>
+            <div class="reveal flex gap-5 rounded-2xl border border-transparent p-4 transition hover:border-amber-200 hover:bg-amber-50/50" style="transition-delay:.4s">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white shadow-lg shadow-amber-500/30"><i data-lucide="languages" class="h-5 w-5"></i></span>
+              <div>
+                <h3 class="font-semibold text-zinc-900">Bilingual by default</h3>
+                <p class="mt-1 text-sm leading-relaxed text-zinc-600">English and Spanish, switching mid-call when the guest switches. Custom languages on request.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal-right relative">
+          <div class="absolute -top-8 right-10 hidden sm:block">
+            <div class="rounded-2xl border border-zinc-200 bg-white px-5 py-3.5 shadow-xl">
+              <div class="flex items-center gap-2.5">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75"></span>
+                  <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+                </span>
+                <div>
+                  <p class="text-xs font-semibold text-zinc-900">12 calls answered tonight</p>
+                  <p class="text-[10px] text-zinc-500">5 reserved · 3 menu requests</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative mx-auto max-w-md overflow-hidden rounded-[2.2rem] border-[6px] border-espresso bg-white shadow-2xl shadow-espresso/30">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Elegant restaurant dining room" class="h-[26rem] w-full object-cover sm:h-[30rem]" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/80 via-transparent to-transparent"></div>
+
+            <div class="absolute bottom-5 left-4 right-4 rounded-2xl border border-white/15 bg-black/55 p-4 backdrop-blur-lg">
+              <div class="flex items-center gap-3">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-amber-400 bg-gradient-to-br from-amber-400 to-orange-600"><i data-lucide="bot" class="h-5 w-5 text-white"></i></span>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white">The Copper Spoon — Front Desk</p>
+                  <p class="text-xs text-amber-300">AI receptionist · on the line</p>
+                </div>
+                <div class="flex items-end gap-1">
+                  <span class="wave-bar h-3 w-1 rounded-full bg-amber-400" style="animation-delay:0s"></span>
+                  <span class="wave-bar h-4 w-1 rounded-full bg-amber-400" style="animation-delay:.15s"></span>
+                  <span class="wave-bar h-2.5 w-1 rounded-full bg-amber-400" style="animation-delay:.3s"></span>
+                  <span class="wave-bar h-3.5 w-1 rounded-full bg-amber-400" style="animation-delay:.45s"></span>
+                  <span class="wave-bar h-2 w-1 rounded-full bg-amber-400" style="animation-delay:.6s"></span>
+                </div>
+              </div>
+              <p class="mt-3 text-xs leading-relaxed text-zinc-200"><span class="font-semibold text-amber-300">Tonight:</span> "Good evening, The Copper Spoon! Table for four at 7? Absolutely — Sarah, right? You're confirmed in OpenTable. I've texted you the menu. See you tonight!"</p>
+            </div>
+          </div>
+
+          <div class="absolute -bottom-6 -left-4 sm:-left-10">
+            <div class="animate-float rounded-2xl bg-espresso p-4 text-white shadow-2xl">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400"><i data-lucide="trending-up" class="h-5 w-5"></i></span>
+                <div>
+                  <p class="text-lg font-bold leading-none text-white"><span data-count="32" data-suffix="%">0%</span></p>
+                  <p class="mt-1 text-[11px] text-zinc-400">more bookings, week one</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results / ROI -->
+  <section id="results" class="relative overflow-hidden bg-espresso py-24">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1800&q=80" alt="Waiter pouring wine at a fine dining table" class="h-full w-full object-cover opacity-20" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-b from-espresso via-espresso/85 to-espresso"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400">The math</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-white">One missed call pays for the whole month</h2>
+        <p class="mt-5 text-lg text-zinc-300">A party of four averages $120 in revenue. At $50/month, saving a single reservation is a 240% return — every month.</p>
+      </div>
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-3">
+        <div class="reveal card-lift rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur" style="transition-delay:.05s">
+          <p class="font-display text-5xl font-bold text-white"><span data-count="100" data-suffix="%">0%</span></p>
+          <p class="mt-3 text-sm font-medium text-zinc-300">of calls answered,<br />first ring</p>
+        </div>
+        <div class="reveal card-lift rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur" style="transition-delay:.15s">
+          <p class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500"><span data-count="120" data-prefix="$">$0</span></p>
+          <p class="mt-3 text-sm font-medium text-zinc-300">average check saved<br />per booked party</p>
+        </div>
+        <div class="reveal card-lift rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur" style="transition-delay:.25s">
+          <p class="font-display text-5xl font-bold text-white"><span data-count="5" data-suffix=" min">0</span></p>
+          <p class="mt-3 text-sm font-medium text-zinc-300">from signup to<br />live receptionist</p>
+        </div>
+      </div>
+
+      <div class="reveal mx-auto mt-12 max-w-xl">
+        <div class="rounded-3xl bg-white p-8 text-zinc-800 shadow-2xl">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-semibold text-zinc-900">If you save 10 parties a month</p>
+            <i data-lucide="calculator" class="h-5 w-5 text-amber-500"></i>
+          </div>
+          <dl class="mt-5 space-y-3 text-sm">
+            <div class="flex justify-between border-b border-zinc-200 pb-3"><dt class="text-zinc-500">TableTalk cost</dt><dd class="font-semibold text-zinc-900">$50/month</dd></div>
+            <div class="flex justify-between border-b border-zinc-200 pb-3"><dt class="text-zinc-500">Recovered revenue</dt><dd class="font-semibold text-zinc-900">10 × $120 = $1,200</dd></div>
+            <div class="flex justify-between pt-1"><dt class="font-semibold text-zinc-900">Net gain per month</dt><dd class="font-bold text-emerald-600">+$1,150</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Wall of love</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">Restaurants that stopped missing calls</h2>
+      </div>
+
+      <div class="mt-16 grid gap-8 md:grid-cols-3">
+        <div class="reveal card-lift flex flex-col rounded-3xl border border-zinc-200 bg-white p-8" style="transition-delay:.05s">
+          <div class="flex items-center gap-1 text-amber-500"><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i></div>
+          <p class="mt-5 flex-1 text-[15px] leading-relaxed text-zinc-600">"Our hosts were sprinting from the door to the phone all night. TableTalk answers in half a ring and books parties while my team seats the floor. Saturday night revenue is up and the stress is gone."</p>
+          <div class="mt-7 flex items-center gap-3.5 border-t border-zinc-100 pt-6">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Marcus Bennett" class="h-11 w-11 rounded-full" loading="lazy" />
+            <div>
+              <p class="text-sm font-semibold text-zinc-900">Marcus Bennett</p>
+              <p class="text-xs text-zinc-500">Owner, The Copper Spoon</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal card-lift flex flex-col rounded-3xl border border-zinc-200 bg-white p-8" style="transition-delay:.15s">
+          <div class="flex items-center gap-1 text-amber-500"><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i></div>
+          <p class="mt-5 flex-1 text-[15px] leading-relaxed text-zinc-600">"I was skeptical a robot could sound natural. A caller left a five-star review saying our 'new host' was a delight — it was the AI. Guests ask for her by name now."</p>
+          <div class="mt-7 flex items-center gap-3.5 border-t border-zinc-100 pt-6">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80" alt="Miguel Santos" class="h-11 w-11 rounded-full" loading="lazy" />
+            <div>
+              <p class="text-sm font-semibold text-zinc-900">Miguel Santos</p>
+              <p class="text-xs text-zinc-500">GM, Casa Verde</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal card-lift flex flex-col rounded-3xl border border-zinc-200 bg-white p-8" style="transition-delay:.25s">
+          <div class="flex items-center gap-1 text-amber-500"><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i></div>
+          <p class="mt-5 flex-1 text-[15px] leading-relaxed text-zinc-600">"We're a small team that used to have voicemail we never checked. Now the AI handles after-hours, texts guests the menu, and I get a summary every morning. Best $50 I spend on the business."</p>
+          <div class="mt-7 flex items-center gap-3.5 border-t border-zinc-100 pt-6">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Daniel Okafor" class="h-11 w-11 rounded-full" loading="lazy" />
+            <div>
+              <p class="text-sm font-semibold text-zinc-900">Daniel Okafor</p>
+              <p class="text-xs text-zinc-500">Founder, Ember & Oak</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" x-data="{ annual: false }" class="bg-white py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Pricing</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">One flat price. No per-call fees. Ever.</h2>
+        <p class="mt-5 text-lg text-zinc-600">Less than the cost of a single lost party. Cancel anytime.</p>
+
+        <div class="mt-8 inline-flex items-center gap-3 rounded-full border border-zinc-200 bg-cream p-1.5 text-sm">
+          <button @click="annual = false" class="rounded-full px-5 py-2 font-semibold transition" :class="!annual ? 'bg-zinc-900 text-white shadow' : 'text-zinc-500 hover:text-zinc-800'">Monthly</button>
+          <button @click="annual = true" class="rounded-full px-5 py-2 font-semibold transition" :class="annual ? 'bg-zinc-900 text-white shadow' : 'text-zinc-500 hover:text-zinc-800'">Annual <span class="ml-1 rounded-full bg-amber-400/20 px-2 py-0.5 text-[10px] font-bold text-amber-700">SAVE 20%</span></button>
+        </div>
+      </div>
+
+      <div class="reveal mx-auto mt-12 max-w-4xl">
+        <div class="relative rounded-[2rem] bg-gradient-to-br from-espresso to-[#2A2119] p-[1px]">
+          <span class="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-400 to-orange-600 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-lg shadow-amber-500/40">Most popular</span>
+          <div class="grid gap-0 rounded-[2rem] md:grid-cols-2">
+            <div class="p-10 text-white">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400/15 text-amber-400"><i data-lucide="phone-call" class="h-5 w-5"></i></span>
+                <p class="font-display text-xl font-semibold">AI Phone Receptionist</p>
+              </div>
+              <p class="mt-6 flex items-end gap-1.5">
+                <span class="font-display text-5xl font-bold tracking-tight" x-text="annual ? '$480' : '$50'">$50</span>
+                <span class="pb-1.5 text-sm text-zinc-400" x-text="annual ? '/year' : '/month'">/month</span>
+              </p>
+              <p class="mt-3 text-sm text-zinc-400" x-text="annual ? '$40 per month — billed yearly, two months free.' : 'Flat rate. First 7 days free.'">Flat rate. First 7 days free.</p>
+              <a href="#cta" class="btn-primary mt-8 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-5 py-3.5 text-sm font-semibold text-white">
+                Start your 7-day free trial <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </a>
+              <p class="mt-3 text-center text-xs text-zinc-400">No credit card required upfront</p>
+            </div>
+            <div class="rounded-[2rem] bg-white p-10 shadow-2xl md:rounded-l-none">
+              <p class="text-sm font-semibold uppercase tracking-wide text-zinc-500">Everything included</p>
+              <ul class="mt-6 space-y-3.5 text-sm text-zinc-700">
+                <li class="flex gap-3"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i> Unlimited calls — peak &amp; after hours</li>
+                <li class="flex gap-3"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i> OpenTable &amp; Resy booking</li>
+                <li class="flex gap-3"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i> SMS menu &amp; order link dispatcher</li>
+                <li class="flex gap-3"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i> Custom voice &amp; greeting script</li>
+                <li class="flex gap-3"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i> English + Spanish out of the box</li>
+                <li class="flex gap-3"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i> Daily call analytics &amp; summaries</li>
+                <li class="flex gap-3"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i> Guided setup with our team</li>
+              </ul>
+              <p class="mt-6 rounded-xl bg-cream p-4 text-xs leading-relaxed text-zinc-600">
+                <span class="font-semibold text-zinc-900">Compare:</span> a dedicated phone host costs $30–50/hour. TableTalk costs <span class="font-bold text-orange-600" x-text="annual ? '$40' : '$50'">$50</span> a <em>month</em>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-24">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">FAQ</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">Answers, before you ask</h2>
+      </div>
+
+      <div x-data="{ open: 1 }" class="mt-12 space-y-3">
+        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+          <button @click="open = (open === 1 ? null : 1)" class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+            <span class="font-semibold text-zinc-900">Does this replace my host staff?</span>
+            <i data-lucide="chevron-down" class="h-5 w-5 shrink-0 text-amber-500 transition-transform duration-300" :class="open === 1 ? 'rotate-180' : ''"></i>
+          </button>
+          <div x-show="open === 1" x-collapse x-cloak>
+            <p class="px-6 pb-5 text-sm leading-relaxed text-zinc-600">No. TableTalk handles overflow when your team is busy and covers late-night, weekend, and holiday calls. Your hosts stay on the floor — which is exactly where they should be.</p>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+          <button @click="open = (open === 2 ? null : 2)" class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+            <span class="font-semibold text-zinc-900">How hard is setup?</span>
+            <i data-lucide="chevron-down" class="h-5 w-5 shrink-0 text-amber-500 transition-transform duration-300" :class="open === 2 ? 'rotate-180' : ''"></i>
+          </button>
+          <div x-show="open === 2" x-collapse x-cloak>
+            <p class="px-6 pb-5 text-sm leading-relaxed text-zinc-600">Under 5 minutes on our onboarding call. You enable conditional call forwarding, we upload your menu and reservation link together, and the AI is live before the next shift.</p>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+          <button @click="open = (open === 3 ? null : 3)" class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+            <span class="font-semibold text-zinc-900">Can callers tell it's an AI?</span>
+            <i data-lucide="chevron-down" class="h-5 w-5 shrink-0 text-amber-500 transition-transform duration-300" :class="open === 3 ? 'rotate-180' : ''"></i>
+          </button>
+          <div x-show="open === 3" x-collapse x-cloak>
+            <p class="px-6 pb-5 text-sm leading-relaxed text-zinc-600">Most callers can't. The voices sound warm and human, with natural pauses, and the AI knows your menu and booking system cold. You choose the voice and the greeting.</p>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+          <button @click="open = (open === 4 ? null : 4)" class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+            <span class="font-semibold text-zinc-900">What if a caller needs a real person?</span>
+            <i data-lucide="chevron-down" class="h-5 w-5 shrink-0 text-amber-500 transition-transform duration-300" :class="open === 4 ? 'rotate-180' : ''"></i>
+          </button>
+          <div x-show="open === 4" x-collapse x-cloak>
+            <p class="px-6 pb-5 text-sm leading-relaxed text-zinc-600">The AI recognizes when a call needs a human and transfers it to your manager or host stand — along with a quick summary of what the caller wanted, so no one repeats themselves.</p>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+          <button @click="open = (open === 5 ? null : 5)" class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+            <span class="font-semibold text-zinc-900">Can I customize what it says and does?</span>
+            <i data-lucide="chevron-down" class="h-5 w-5 shrink-0 text-amber-500 transition-transform duration-300" :class="open === 5 ? 'rotate-180' : ''"></i>
+          </button>
+          <div x-show="open === 5" x-collapse x-cloak>
+            <p class="px-6 pb-5 text-sm leading-relaxed text-zinc-600">Fully. Pick the voice, write the greeting, set when it answers, define what happens with walk-ins vs. reservations, and add any policy — parking rules, dress code, kids' menus, you name it.</p>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+          <button @click="open = (open === 6 ? null : 6)" class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+            <span class="font-semibold text-zinc-900">Which phone companies and CRMs do you work with?</span>
+            <i data-lucide="chevron-down" class="h-5 w-5 shrink-0 text-amber-500 transition-transform duration-300" :class="open === 6 ? 'rotate-180' : ''"></i>
+          </button>
+          <div x-show="open === 6" x-collapse x-cloak>
+            <p class="px-6 pb-5 text-sm leading-relaxed text-zinc-600">Any North American line — landlines, VoIP, Google Voice — plus OpenTable, Resy, Toast, SevenRooms, and Yelp. If you take calls, we can answer them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="relative overflow-hidden py-24">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=80" alt="Fine dining restaurant table" class="h-full w-full object-cover" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-br from-espresso/95 via-espresso/90 to-orange-950/90"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid items-center gap-14 lg:grid-cols-2">
+        <div class="reveal-left">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400">Ready when you are</p>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-white">Run the floor. We'll run the phone.</h2>
+          <p class="mt-5 max-w-lg text-lg leading-relaxed text-zinc-300">
+            Join 200+ restaurants that never let a reservation ring away. Start your 7-day free trial — we'll set up
+            your AI receptionist together on a 15-minute call.
+          </p>
+          <ul class="mt-8 space-y-3 text-zinc-200">
+            <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="h-5 w-5 text-amber-400"></i> Live in under 5 minutes</li>
+            <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="h-5 w-5 text-amber-400"></i> No hardware, no new number</li>
+            <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="h-5 w-5 text-amber-400"></i> Cancel anytime, keep every booking</li>
+          </ul>
+        </div>
+
+        <div class="reveal-right">
+          <div x-data="{ sent: false, name: '', email: '', phone: '' }" class="rounded-3xl border border-white/15 bg-white p-8 shadow-2xl sm:p-10">
+            <template x-if="!sent">
+              <form @submit.prevent="sent = true" class="space-y-5">
+                <h3 class="font-display text-2xl font-semibold text-zinc-900">Start your free trial</h3>
+                <p class="text-sm text-zinc-500">Tell us about your restaurant — we'll reply within a few hours.</p>
+                <div>
+                  <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500">Restaurant name</label>
+                  <input x-model="name" required placeholder="The Copper Spoon" class="w-full rounded-xl border border-zinc-300 bg-cream px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
+                </div>
+                <div>
+                  <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500">Work email</label>
+                  <input x-model="email" type="email" required placeholder="you@restaurant.com" class="w-full rounded-xl border border-zinc-300 bg-cream px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
+                </div>
+                <div>
+                  <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500">Phone line</label>
+                  <input x-model="phone" type="tel" placeholder="(555) 012-3456" class="w-full rounded-xl border border-zinc-300 bg-cream px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
+                </div>
+                <button type="submit" class="btn-primary flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-5 py-3.5 text-sm font-semibold text-white">
+                  Get started in 5 minutes <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                </button>
+                <p class="text-center text-xs text-zinc-400">No credit card required. First 7 days free.</p>
+              </form>
+            </template>
+            <template x-if="sent">
+              <div class="flex flex-col items-center py-10 text-center">
+                <span class="animate-scaleIn flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600"><i data-lucide="check" class="h-8 w-8"></i></span>
+                <h3 class="mt-5 font-display text-2xl font-semibold text-zinc-900">You're on the list!</h3>
+                <p class="mt-2 max-w-xs text-sm text-zinc-500" x-text="'Thanks, ' + (name || 'friend') + '. Watch your inbox for a note from our team — usually within a few hours.'"></p>
+                <button @click="sent = false" class="mt-6 text-sm font-semibold text-amber-600 hover:text-amber-700">Send another</button>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-espresso pt-16 pb-8 text-zinc-400">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-12 md:grid-cols-4">
+        <div class="md:col-span-2">
+          <a href="#" class="flex items-center gap-2.5">
+            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600"><i data-lucide="phone-call" class="h-5 w-5 text-white"></i></span>
+            <span class="text-lg font-semibold tracking-tight text-white">TableTalk <span class="text-amber-400">AI</span></span>
+          </a>
+          <p class="mt-5 max-w-sm text-sm leading-relaxed">The AI phone receptionist for restaurants. Every call answered, every table booked, every guest fed.</p>
+          <div class="mt-6 flex items-center gap-3">
+            <a href="#" aria-label="Twitter" class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 transition hover:border-amber-400 hover:text-amber-400"><i data-lucide="twitter" class="h-5 w-5"></i></a>
+            <a href="#" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 transition hover:border-amber-400 hover:text-amber-400"><i data-lucide="instagram" class="h-5 w-5"></i></a>
+            <a href="#" aria-label="LinkedIn" class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 transition hover:border-amber-400 hover:text-amber-400"><i data-lucide="linkedin" class="h-5 w-5"></i></a>
+            <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 transition hover:border-amber-400 hover:text-amber-400"><i data-lucide="facebook" class="h-5 w-5"></i></a>
+          </div>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white">Product</p>
+          <ul class="mt-5 space-y-3 text-sm">
+            <li><a href="#how-it-works" class="transition hover:text-amber-400">How it works</a></li>
+            <li><a href="#features" class="transition hover:text-amber-400">Features</a></li>
+            <li><a href="#pricing" class="transition hover:text-amber-400">Pricing</a></li>
+            <li><a href="#gallery" class="transition hover:text-amber-400">Restaurants</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white">Company</p>
+          <ul class="mt-5 space-y-3 text-sm">
+            <li><a href="#" class="transition hover:text-amber-400">About us</a></li>
+            <li><a href="mailto:support@tabletalkai.com" class="transition hover:text-amber-400">support@tabletalkai.com</a></li>
+            <li><a href="#" class="transition hover:text-amber-400">Privacy policy</a></li>
+            <li><a href="#" class="transition hover:text-amber-400">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs sm:flex-row">
+        <p>&copy; <span id="year">2026</span> TableTalk AI. All rights reserved.</p>
+        <p class="flex items-center gap-1.5"><span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span></span> All systems answering on the first ring.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Demo modal -->
+  <div x-data="demoModal()" @open-demo.window="open = true; start()" x-show="open"
+       x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+       @keydown.escape.window="close()" role="dialog" aria-modal="true">
+    <div @click.outside="close()" class="w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl">
+      <div class="flex items-center justify-between border-b border-zinc-100 px-6 py-4">
+        <div class="flex items-center gap-3">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white"><i data-lucide="headphones" class="h-5 w-5"></i></span>
+          <div>
+            <p class="text-sm font-semibold text-zinc-900">TableTalk AI — sample call</p>
+            <p class="text-xs text-zinc-500">A real booking, word for word</p>
+          </div>
+        </div>
+        <button @click="close()" class="p-1 text-zinc-400 transition hover:text-zinc-900" aria-label="Close demo"><i data-lucide="x" class="h-5 w-5"></i></button>
+      </div>
+
+      <div x-show="phase === 'call'" x-cloak class="px-6 py-10">
+        <div class="flex items-center justify-center">
+          <div class="relative flex h-24 w-24 items-center justify-center">
+            <span x-show="calling" class="pulse-ring absolute inset-0 rounded-full border-2 border-amber-400/60"></span>
+            <span class="flex h-24 w-24 items-center justify-center rounded-full border-4 border-amber-400 bg-gradient-to-br from-amber-400 to-orange-600 shadow-xl"><i data-lucide="bot" class="h-12 w-12 text-white"></i></span>
+          </div>
+        </div>
+        <p class="mt-6 text-center text-sm text-zinc-500" x-text="statusLabel">Connecting…</p>
+        <div class="mt-6 flex justify-center">
+          <button x-show="!calling" @click="restart()" class="btn-primary flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-6 py-3 text-sm font-semibold text-white">
+            <i data-lucide="play" class="h-4 w-4 fill-current"></i> Play sample call
+          </button>
+          <button x-show="calling" @click="restart()" class="flex items-center gap-2 rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50">
+            <i data-lucide="rotate-ccw" class="h-4 w-4"></i> Replay
+          </button>
+        </div>
+      </div>
+
+      <div x-show="phase === 'transcript'" x-cloak>
+        <div class="border-b border-zinc-100 bg-cream px-6 py-2.5">
+          <p class="text-xs font-semibold uppercase tracking-wide text-zinc-500">What the caller heard</p>
+        </div>
+        <div class="max-h-80 space-y-4 overflow-y-auto px-6 py-6 text-sm scrollbar-none">
+          <template x-for="(msg, idx) in messages" :key="idx">
+            <div class="flex" :class="msg.side === 'ai' ? 'justify-start' : 'justify-end'">
+              <div class="max-w-[85%] rounded-2xl px-4 py-3 leading-relaxed"
+                   :class="msg.side === 'ai' ? 'rounded-tl-sm border border-zinc-200 bg-white text-zinc-700' : 'rounded-tr-sm bg-espresso text-white'">
+                <span class="mb-1 block text-[10px] font-bold uppercase tracking-wider" :class="msg.side === 'ai' ? 'text-amber-600' : 'text-zinc-400'" x-text="msg.side === 'ai' ? 'TableTalk AI' : 'Diner'"></span>
+                <span x-text="msg.text"></span>
+              </div>
+            </div>
+          </template>
+        </div>
+        <p class="px-6 pb-5 text-center text-xs text-zinc-500">This reservation was booked directly into OpenTable.</p>
+      </div>
+
+      <div class="border-t border-zinc-100 px-6 py-4">
+        <a href="#cta" @click="close()" class="btn-primary flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-5 py-3 text-sm font-semibold text-white">
+          Start your 7-day free trial <i data-lucide="arrow-right" class="h-4 w-4"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.addEventListener('DOMContentLoaded', function () { lucide.createIcons(); });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .squiggle').forEach((el) => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseFloat(el.dataset.count);
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const duration = 1600;
+        const start = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = prefix + Math.round(target * eased).toLocaleString() + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        countObserver.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('[data-count]').forEach((el) => countObserver.observe(el));
+
+    const video = document.getElementById('demoVideo');
+    const overlay = document.getElementById('demoOverlay');
+    if (video) {
+      video.addEventListener('play', function () { if (overlay) overlay.style.display = 'none'; });
+      video.addEventListener('pause', function () { if (overlay) overlay.style.display = 'flex'; });
+      video.addEventListener('ended', function () { if (overlay) overlay.style.display = 'flex'; });
+      video.addEventListener('error', function () { if (overlay) overlay.style.display = 'flex'; });
+    }
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('demoModal', () => ({
+        open: false,
+        calling: false,
+        phase: 'call',
+        messages: [],
+        callTimeout: [],
+        statusLabel: 'Connecting…',
+        script: [
+          { side: 'ai',  text: 'Good evening, thanks for calling The Copper Spoon. How can I help you tonight?', at: 800 },
+          { side: 'user', text: 'Hi, I was hoping to get a table for four tonight around 7.', at: 4600 },
+          { side: 'ai',  text: 'Of course. Let me check availability — 7:00 PM for four works. May I have a name for the reservation?', at: 7200 },
+          { side: 'user', text: 'Sarah Johnson.', at: 12500 },
+          { side: 'ai',  text: 'Great. I\u2019ve confirmed the reservation under Sarah Johnson, four guests at 7:00 PM in OpenTable. I\u2019ve also texted you a link to our menu. Anything else?', at: 14500 },
+          { side: 'user', text: 'No, that\u2019s all. Thank you!', at: 23500 },
+          { side: 'ai',  text: 'See you tonight, Sarah. Enjoy your dinner!', at: 26000 }
+        ],
+        start() {
+          if (this.open && !this.calling) { this.reset(); this.begin(); }
+        },
+        reset() {
+          this.calling = false; this.messages = []; this.phase = 'call'; this.statusLabel = 'Connecting…';
+          this.callTimeout.forEach(clearTimeout); this.callTimeout = [];
+        },
+        begin() {
+          this.statusLabel = 'Ringing…';
+          this.callTimeout.push(setTimeout(() => {
+            this.calling = true; this.statusLabel = 'Connected — the AI is speaking';
+            this.script.forEach((line, i) => {
+              this.callTimeout.push(setTimeout(() => {
+                this.messages.push(line);
+                if (i + 1 >= this.script.length) {
+                  this.calling = false; this.statusLabel = 'Call complete — reservation booked';
+                  this.phase = 'transcript';
+                }
+              }, line.at));
+            });
+          }, 1200));
+        },
+        restart() { this.reset(); this.begin(); },
+        close() { this.reset(); this.open = false; }
+      }));
+    });
+  </script>
+</body>
+</html>
