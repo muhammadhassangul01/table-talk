@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Best Restaurant Phone Booking Bot | TableTalk AI</title>
+  <meta name="description" content="The best restaurant phone booking bot. Answers on the first ring, books tables into OpenTable & Resy, texts menus. Flat $50/month, 7-day free trial, no per-booking fees." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://table-talk.tech/restaurant-phone-booking-bot.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TableTalk AI" />
+  <meta property="og:url" content="https://table-talk.tech/restaurant-phone-booking-bot.html" />
+  <meta property="og:title" content="Best Restaurant Phone Booking Bot | TableTalk AI" />
+  <meta property="og:description" content="Answers on the first ring, books tables into OpenTable & Resy, texts menus. Flat $50/month, no per-booking fees." />
+  <meta property="og:image" content="https://table-talk.tech/og-image.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Best Restaurant Phone Booking Bot | TableTalk AI" />
+  <meta name="twitter:description" content="Answers on the first ring, books tables into OpenTable & Resy, texts menus. Flat $50/month, no per-booking fees." />
+  <meta name="twitter:image" content="https://table-talk.tech/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { display: ['Fraunces', 'serif'], sans: ['Inter', 'sans-serif'] },
+        colors: { espresso: '#171310', cream: '#FAF6F0' }
+      } }
+    };
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .font-display { font-family: 'Fraunces', serif; }
+    ::selection { background: #F59E0B; color: #171310; }
+    html { scroll-behavior: smooth; }
+    .gradient-text { background: linear-gradient(120deg,#FBBF24,#EA580C 60%,#F59E0B); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .btn-primary { position: relative; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(245,158,11,.55); }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://table-talk.tech/#organization",
+        "name": "TableTalk AI",
+        "url": "https://table-talk.tech/",
+        "email": "support@tabletalkai.com"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "TableTalk AI — Restaurant Phone Booking Bot",
+        "url": "https://table-talk.tech/restaurant-phone-booking-bot.html",
+        "applicationCategory": "BusinessApplication",
+        "applicationSubCategory": "Restaurant Reservation Management",
+        "operatingSystem": "Any",
+        "description": "AI phone booking bot for restaurants. Answers calls, books tables into OpenTable and Resy, and texts guests the menu.",
+        "offers": { "@type": "Offer", "price": "50", "priceCurrency": "USD", "description": "Flat monthly rate, unlimited calls and bookings." },
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "200", "bestRating": "5" },
+        "publisher": { "@id": "https://table-talk.tech/#organization" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://table-talk.tech/" },
+          { "@type": "ListItem", "position": 2, "name": "Best Restaurant Phone Booking Bot", "item": "https://table-talk.tech/restaurant-phone-booking-bot.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a restaurant phone booking bot?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A restaurant phone booking bot is an AI that answers your incoming calls and books reservations over the phone — checking live availability, confirming the party size and time, and writing the booking straight into OpenTable or Resy." }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does a phone booking bot cost?",
+            "acceptedAnswer": { "@type": "Answer", "text": "TableTalk is a flat $50 per month with unlimited calls and unlimited bookings. There are no per-booking fees and no per-minute charges." }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it sound robotic?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. TableTalk's voices sound warm and human with natural pauses, and you can pick a voice and greeting that match your brand. Most callers assume they're talking to a person." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-cream text-zinc-800 antialiased overflow-x-hidden">
+
+  <header class="sticky top-0 z-40 bg-espresso shadow-lg shadow-black/20">
+    <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600"><i data-lucide="phone-call" class="h-5 w-5 text-white"></i></span>
+        <span class="text-lg font-semibold tracking-tight text-white">TableTalk&nbsp;<span class="text-amber-400">AI</span></span>
+      </a>
+      <div class="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <a href="index.html#how-it-works" class="hover:text-white">How it works</a>
+        <a href="index.html#pricing" class="hover:text-white">Pricing</a>
+        <a href="index.html#faq" class="hover:text-white">FAQ</a>
+      </div>
+      <a href="index.html#cta" class="btn-primary rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-2.5 text-sm font-semibold text-white">Start free trial</a>
+    </nav>
+  </header>
+
+  <section class="relative overflow-hidden bg-espresso py-24 sm:py-28">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=80" alt="Restaurant dining room" class="h-full w-full object-cover opacity-20" loading="eager" />
+      <div class="absolute inset-0 bg-gradient-to-b from-espresso/80 via-espresso/75 to-espresso"></div>
+    </div>
+    <div class="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400">Restaurant phone booking bot</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-6xl">
+        A phone booking bot that fills <span class="gradient-text">every table</span>.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300">
+        TableTalk is the best restaurant phone booking bot on the market. It answers every call, books tables into OpenTable and Resy, and texts guests your menu — with unlimited bookings for a flat $50 a month.
+      </p>
+      <div class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a href="index.html#cta" class="btn-primary flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-7 py-3.5 text-sm font-semibold text-white">
+          Start your 7-day free trial <i data-lucide="arrow-right" class="h-4 w-4"></i>
+        </a>
+        <a href="index.html" class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10">See how it works</a>
+      </div>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-400">
+        <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="h-4 w-4 text-amber-400"></i> Unlimited bookings</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="h-4 w-4 text-amber-400"></i> No per-booking or per-minute fees</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="h-4 w-4 text-amber-400"></i> Set up in 5 minutes</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">Why TableTalk is the booking bot restaurants actually want</h2>
+      </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-3xl border border-zinc-200 bg-white p-8">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white"><i data-lucide="zap" class="h-5 w-5"></i></span>
+          <h3 class="mt-5 font-display text-xl font-semibold text-zinc-900">Answers in under a second</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">No hold music, no menus to press through, no "all agents are busy." Just a warm greeting and a booking.</p>
+        </div>
+        <div class="rounded-3xl border border-zinc-200 bg-white p-8">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white"><i data-lucide="plug" class="h-5 w-5"></i></span>
+          <h3 class="mt-5 font-display text-xl font-semibold text-zinc-900">Books into your real system</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">OpenTable, Resy, Toast, SevenRooms — bookings land where your team already works, with zero manual entry.</p>
+        </div>
+        <div class="rounded-3xl border border-zinc-200 bg-white p-8">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white"><i data-lucide="mic" class="h-5 w-5"></i></span>
+          <h3 class="mt-5 font-display text-xl font-semibold text-zinc-900">Sounds like your host</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">Pick the voice, write the greeting, set the tone. Callers can't tell the difference — some ask for the bot by name.</p>
+        </div>
+        <div class="rounded-3xl border border-zinc-200 bg-white p-8">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white"><i data-lucide="users" class="h-5 w-5"></i></span>
+          <h3 class="mt-5 font-display text-xl font-semibold text-zinc-900">Handles parties of any size</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">Two for dinner or a 20-top for the private room — it checks availability, handles special requests, and confirms.</p>
+        </div>
+        <div class="rounded-3xl border border-zinc-200 bg-white p-8">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white"><i data-lucide="message-square" class="h-5 w-5"></i></span>
+          <h3 class="mt-5 font-display text-xl font-semibold text-zinc-900">Texts confirmation + menu</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">Every guest gets a text confirmation with your menu link — reducing no-shows and getting the order started.</p>
+        </div>
+        <div class="rounded-3xl border border-zinc-200 bg-white p-8">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white"><i data-lucide="clock" class="h-5 w-5"></i></span>
+          <h3 class="mt-5 font-display text-xl font-semibold text-zinc-900">Books around the clock</h3>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600">Midnight callers can still book a table for next Saturday. You wake up to a booking, not a missed call.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid items-center gap-14 lg:grid-cols-2">
+        <div class="rounded-3xl bg-gradient-to-br from-espresso to-[#2A2119] p-8 text-white shadow-2xl sm:p-10">
+          <h3 class="font-display text-2xl font-semibold text-amber-300">What a booking bot should never do</h3>
+          <ul class="mt-6 space-y-4 text-sm text-zinc-300">
+            <li class="flex gap-3"><i data-lucide="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-red-400"></i><span>Play you a menu tree and make guests press 1, 2, 3</span></li>
+            <li class="flex gap-3"><i data-lucide="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-red-400"></i><span>Take a message instead of a reservation</span></li>
+            <li class="flex gap-3"><i data-lucide="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-red-400"></i><span>Charge per booking or per minute</span></li>
+            <li class="flex gap-3"><i data-lucide="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-red-400"></i><span>Sound like a robot from 1998</span></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">The price of a missed call</h2>
+          <p class="mt-5 text-lg leading-relaxed text-zinc-600">
+            The average restaurant loses 1 in 5 calls during peak hours. Each missed party is worth about $120 in revenue. At a flat $50/month with unlimited bookings, TableTalk pays for itself the night it catches a single table.
+          </p>
+          <ul class="mt-8 space-y-4">
+            <li class="flex gap-3"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-amber-500"></i><span><strong>10 parties saved/month</strong> = $1,200 recovered</span></li>
+            <li class="flex gap-3"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-amber-500"></i><span><strong>Cost:</strong> $50/month, unlimited</span></li>
+            <li class="flex gap-3"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-amber-500"></i><span><strong>Net gain:</strong> +$1,150/month</span></li>
+          </ul>
+          <a href="index.html#cta" class="btn-primary mt-9 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-7 py-3.5 text-sm font-semibold text-white">
+            Book your free trial <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6">
+      <h2 class="text-center text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900">Booking bot questions</h2>
+      <div class="mt-10 space-y-3">
+        <div class="rounded-2xl border border-zinc-200 bg-white p-6">
+          <h3 class="font-semibold text-zinc-900">What is a restaurant phone booking bot?</h3>
+          <p class="mt-2 text-sm leading-relaxed text-zinc-600">A restaurant phone booking bot is an AI that answers your incoming calls and books reservations over the phone — checking live availability, confirming the party size and time, and writing the booking straight into OpenTable or Resy.</p>
+        </div>
+        <div class="rounded-2xl border border-zinc-200 bg-white p-6">
+          <h3 class="font-semibold text-zinc-900">How much does a phone booking bot cost?</h3>
+          <p class="mt-2 text-sm leading-relaxed text-zinc-600">TableTalk is a flat $50 per month with unlimited calls and unlimited bookings. There are no per-booking fees and no per-minute charges.</p>
+        </div>
+        <div class="rounded-2xl border border-zinc-200 bg-white p-6">
+          <h3 class="font-semibold text-zinc-900">Does it sound robotic?</h3>
+          <p class="mt-2 text-sm leading-relaxed text-zinc-600">No. TableTalk's voices sound warm and human with natural pauses, and you can pick a voice and greeting that match your brand. Most callers assume they're talking to a person.</p>
+        </div>
+        <div class="rounded-2xl border border-zinc-200 bg-white p-6">
+          <h3 class="font-semibold text-zinc-900">What if the caller needs a human?</h3>
+          <p class="mt-2 text-sm leading-relaxed text-zinc-600">The bot recognizes those moments and transfers the call to your host stand or manager — with a summary of the conversation so no one repeats themselves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-espresso py-16 text-white">
+    <div class="mx-auto max-w-4xl px-4 text-center sm:px-6">
+      <h2 class="text-3xl font-semibold tracking-tight">Let the bot book while you run the floor.</h2>
+      <p class="mt-4 text-lg text-zinc-300">Unlimited bookings. Flat $50/month. First 7 days free.</p>
+      <a href="index.html#cta" class="btn-primary mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-8 py-4 text-sm font-semibold text-white">
+        Start your free trial <i data-lucide="arrow-right" class="h-4 w-4"></i>
+      </a>
+    </div>
+  </section>
+
+  <footer class="bg-espresso py-12 text-zinc-400">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 sm:flex-row sm:px-6">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600"><i data-lucide="phone-call" class="h-5 w-5 text-white"></i></span>
+        <span class="text-lg font-semibold tracking-tight text-white">TableTalk <span class="text-amber-400">AI</span></span>
+      </a>
+      <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+        <a href="ai-phone-receptionist-for-restaurants.html" class="hover:text-amber-400">AI Phone Receptionist</a>
+        <a href="restaurant-phone-answering-service.html" class="hover:text-amber-400">Phone Answering Service</a>
+        <a href="opentable-resy-ai-reservation-assistant.html" class="hover:text-amber-400">OpenTable &amp; Resy</a>
+        <a href="index.html" class="hover:text-amber-400">Home</a>
+      </nav>
+      <p class="text-xs">&copy; <span>2026</span> TableTalk AI.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () { lucide.createIcons(); });
+  </script>
+</body>
+</html>
